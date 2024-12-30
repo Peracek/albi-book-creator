@@ -6,7 +6,8 @@ import { generateOids, scale } from './generateOids';
 import { showNameModal } from './showNameModal';
 import { getSvgPathFromStroke } from './utils';
 import { oidTable } from './oidTable';
-import { Point } from '@abc/storage';
+import { db, Point } from '@abc/storage';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -15,9 +16,7 @@ export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [focusedArea, setFocusedArea] = useState<string | null>(null);
 
-  const [areas, setAreas] = useState<
-    { stroke: Point[]; name: string; oidCode: number }[]
-  >([]);
+  const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
 
   const download = () => {
     const factor = 9924 / (210 * 2);
@@ -32,7 +31,7 @@ export const BookCreator = () => {
     areas
       .map((area) => {
         const boundingPolygon = area.stroke.map(scale(factor)) as Point[];
-        const rawOidCode = oidTable[area.oidCode];
+        const rawOidCode = oidTable[area.oid];
         const oids = generateOids(rawOidCode, boundingPolygon);
         return oids;
       })
@@ -55,11 +54,7 @@ export const BookCreator = () => {
       <Freehand
         onStrokeEnd={async (stroke) => {
           const name = await showNameModal();
-
-          setAreas((areas) => [
-            ...areas,
-            { stroke, name, oidCode: STOP_BUTTON_CODE },
-          ]);
+          await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
         }}
       >
         {areas.map((area, i) => {
@@ -89,7 +84,7 @@ export const BookCreator = () => {
                 onMouseEnter={() => setFocusedArea(area.name)}
                 onMouseLeave={() => setFocusedArea(null)}
               >
-                {area.name} | 0x{area.oidCode.toString(16)}
+                {area.name} | 0x{area.oid.toString(16)}
               </List.Item>
             )}
           />
