@@ -1,1 +1,8 @@
-/* Your styles goes here. */
+body {
+  user-select: none;
+}
+
+#drawboard {
+  background-color: #ffffff;
+  touch-action: none;
+}
