@@ -1,0 +1,3 @@
+[submodule "apps/backend/albituzka"]
+	path = apps/backend/albituzka
+	url = https://github.com/jindroush/albituzka.git
