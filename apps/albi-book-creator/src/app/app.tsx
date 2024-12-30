@@ -6,16 +6,17 @@ import { generateOids, scale } from './generateOids';
 import { showNameModal } from './showNameModal';
 import { Point } from './types';
 import { getSvgPathFromStroke } from './utils';
+import { oidTable } from './oidTable';
 
-// stop tlacitko 0x0014
-const STOP_BUTTON_VALUE = parseInt('0x0014', 16);
+// stop tlacitko (interni kod)
+const STOP_BUTTON_CODE = 0x0006;
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [focusedArea, setFocusedArea] = useState<string | null>(null);
 
   const [areas, setAreas] = useState<
-    { stroke: Point[]; name: string; oidValue: number }[]
+    { stroke: Point[]; name: string; oidCode: number }[]
   >([]);
 
   const download = () => {
@@ -31,7 +32,8 @@ export const BookCreator = () => {
     areas
       .map((area) => {
         const boundingPolygon = area.stroke.map(scale(factor)) as Point[];
-        const oids = generateOids(area.oidValue, boundingPolygon);
+        const rawOidCode = oidTable[area.oidCode];
+        const oids = generateOids(rawOidCode, boundingPolygon);
         return oids;
       })
       .flat()
@@ -56,7 +58,7 @@ export const BookCreator = () => {
 
           setAreas((areas) => [
             ...areas,
-            { stroke, name, oidValue: STOP_BUTTON_VALUE },
+            { stroke, name, oidCode: STOP_BUTTON_CODE },
           ]);
         }}
       >
@@ -87,7 +89,7 @@ export const BookCreator = () => {
                 onMouseEnter={() => setFocusedArea(area.name)}
                 onMouseLeave={() => setFocusedArea(null)}
               >
-                {area.name} | 0x{area.oidValue.toString(16)}
+                {area.name} | 0x{area.oidCode.toString(16)}
               </List.Item>
             )}
           />
