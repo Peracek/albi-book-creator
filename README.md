@@ -2,13 +2,17 @@
 
 Web application for creating interactive books that can be read by the Albi pen, a popular educational toy for children.
 
-## Running the app
+## Frontend
 
 Start FE dev server
 
 ```sh
 npx nx serve albi-book-creator
 ```
+
+## Backend
+
+There is git submodule at `apps/backend/albituzka` containing perl scripts.
 
 FIXME: Dockerfile for BE (running perl scripts)
 
