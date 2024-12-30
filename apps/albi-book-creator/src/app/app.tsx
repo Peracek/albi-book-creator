@@ -4,9 +4,9 @@ import { useRef, useState } from 'react';
 import { Freehand } from './Freehand';
 import { generateOids, scale } from './generateOids';
 import { showNameModal } from './showNameModal';
-import { Point } from './types';
 import { getSvgPathFromStroke } from './utils';
 import { oidTable } from './oidTable';
+import { Point } from '@abc/storage';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;

@@ -10,6 +10,7 @@
     "antd": "^5.22.7",
     "axios": "^1.6.0",
     "changedpi": "^1.0.4",
+    "dexie": "^4.0.10",
     "express": "^4.18.1",
     "perfect-freehand": "^1.2.2",
     "point-in-polygon": "^1.1.0",
