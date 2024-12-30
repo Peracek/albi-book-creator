@@ -10,7 +10,7 @@ RUN cpanm MP3::Info Imager YAML
 WORKDIR /app
 
 # Copy your Perl script into the container
-COPY . /app
+COPY ./apps/backend/albituzka/tools /app/tools
 
 # Run the Perl script
 # CMD ["perl", "your_script.pl"]
