@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx run albi-book-creator:serve"
+    "dev": "nx serve albi-book-creator"
   },
   "private": true,
   "dependencies": {
