@@ -1,18 +1,15 @@
-import { Button, List, Space } from 'antd';
+import { db, Point } from '@abc/storage';
+import { Button, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
+import { BackupAndRestore } from './BackupAndRestore';
 import { Freehand } from './Freehand';
 import { generateOids, scale } from './generateOids';
+import { ImageObjectTable } from './ImageObjectTable';
+import { oidTable } from './oidTable';
 import { showNameModal } from './showNameModal';
 import { getSvgPathFromStroke } from './utils';
-import { oidTable } from './oidTable';
-import { db, Point } from '@abc/storage';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { ImageObjectTable } from './ImageObjectTable';
-import { exportDB } from 'dexie-export-import';
-import { saveAs } from 'file-saver';
-import { RestoreDb } from './RestoreDb';
-import { BackupAndRestore } from './BackupAndRestore';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
