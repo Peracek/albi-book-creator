@@ -23,6 +23,9 @@ importers:
       dexie:
         specifier: ^4.0.10
         version: 4.0.10
+      dexie-export-import:
+        specifier: ^4.1.4
+        version: 4.1.4(dexie@4.0.10)
       dexie-react-hooks:
         specifier: ^1.1.7
         version: 1.1.7(@types/react@18.3.1)(dexie@4.0.10)(react@18.3.1)
@@ -3382,6 +3385,11 @@ packages:
     resolution: {integrity: sha512-CmnVc+Hek2egPx1PeTFVta2W78xy2K/9Rkf6cC4T59S50tVnzKj+tnx5mmx5lwvCkujZ4uRrpRSuV+IVs3f90Q==}
     engines: {node: '>= 4.0.0'}
     hasBin: true
+
+  dexie-export-import@4.1.4:
+    resolution: {integrity: sha512-3bw171qUuOTWSYLXI7C/0M6p1X65Rho3tu1IvD9By8jn0+3t3dLSkDlZ1BC6MbABl3kRlhtGigzC+SF+qcS5Og==}
+    peerDependencies:
+      dexie: ^2.0.4 || ^3.0.0 || ^4.0.1
 
   dexie-react-hooks@1.1.7:
     resolution: {integrity: sha512-Lwv5W0Hk+uOW3kGnsU9GZoR1er1B7WQ5DSdonoNG+focTNeJbHW6vi6nBoX534VKI3/uwHebYzSw1fwY6a7mTw==}
@@ -11092,6 +11100,10 @@ snapshots:
       debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
+
+  dexie-export-import@4.1.4(dexie@4.0.10):
+    dependencies:
+      dexie: 4.0.10
 
   dexie-react-hooks@1.1.7(@types/react@18.3.1)(dexie@4.0.10)(react@18.3.1):
     dependencies:

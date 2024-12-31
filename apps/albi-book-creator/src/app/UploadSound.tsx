@@ -9,22 +9,6 @@ type Props = {
   imageObject: ImageObject;
 };
 export const UploadSound = ({ imageObject }: Props) => {
-  //   const onChange: UploadProps['onChange'] = ({ file, fileList }) => {
-  //     if (file.status !== 'uploading') {
-  //       console.log(file, fileList);
-  //       if (file.status === 'done') {
-  //         const reader = new FileReader();
-  //         reader.onload = function (event) {
-  //           const blob = new Blob([event.target!.result as ArrayBuffer], {
-  //             type: file.type,
-  //           });
-  //           db.imageObjects.update(imageObject.id, { sound: blob });
-  //         };
-  //         reader.readAsArrayBuffer(file.originFileObj as Blob);
-  //       }
-  //     }
-  //   };
-
   const customRequest: UploadProps['customRequest'] = ({ file }) => {
     db.imageObjects.update(imageObject.id, { sound: file as Blob });
   };

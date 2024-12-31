@@ -1,7 +1,6 @@
 import { ImageObject } from '@abc/storage';
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Table, TableProps, Tag } from 'antd';
-import { UploadSound } from './Upload';
+import { Table, TableProps, Tag } from 'antd';
+import { UploadSound } from './UploadSound';
 
 const columns: TableProps<ImageObject>['columns'] = [
   {

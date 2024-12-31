@@ -9,6 +9,9 @@ import { oidTable } from './oidTable';
 import { db, Point } from '@abc/storage';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { ImageObjectTable } from './ImageObjectTable';
+import { exportDB } from 'dexie-export-import';
+import { saveAs } from 'file-saver';
+import { RestoreDb } from './RestoreDb';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -81,6 +84,16 @@ export const BookCreator = () => {
           <Button danger onClick={() => db.imageObjects.clear()}>
             Clear
           </Button>
+
+          <Button
+            onClick={async () => {
+              const blob = await exportDB(db);
+              saveAs(blob, 'abc.json');
+            }}
+          >
+            Backup database
+          </Button>
+          <RestoreDb />
         </Space>
       </div>
       <canvas
