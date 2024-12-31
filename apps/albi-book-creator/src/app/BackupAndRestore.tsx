@@ -1,5 +1,5 @@
 import { db } from '@abc/storage';
-import { UploadOutlined } from '@ant-design/icons';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { App, Button, Space, Upload } from 'antd';
 import { exportDB, importInto } from 'dexie-export-import';
 import { saveAs } from 'file-saver';
@@ -14,6 +14,7 @@ export const BackupAndRestore = () => {
           const blob = await exportDB(db);
           saveAs(blob, `abc-${new Date().toISOString()}.json`);
         }}
+        icon={<DownloadOutlined />}
       >
         Backup database
       </Button>
