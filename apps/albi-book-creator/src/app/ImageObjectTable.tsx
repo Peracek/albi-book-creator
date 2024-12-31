@@ -1,6 +1,7 @@
 import { ImageObject } from '@abc/storage';
 import { Table, TableProps, Tag } from 'antd';
 import { UploadSound } from './UploadSound';
+import { RecordSound } from './RecordSound';
 
 const columns: TableProps<ImageObject>['columns'] = [
   {
@@ -18,7 +19,12 @@ const columns: TableProps<ImageObject>['columns'] = [
     title: 'Sound',
     dataIndex: 'sound',
     key: 'sound',
-    render: (_, imageObject) => <UploadSound imageObject={imageObject} />,
+    render: (_, imageObject) => (
+      <>
+        <UploadSound imageObject={imageObject} />
+        <RecordSound id={imageObject.id} />
+      </>
+    ),
   },
 ];
 
