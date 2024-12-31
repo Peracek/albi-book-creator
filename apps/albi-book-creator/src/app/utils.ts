@@ -1,9 +1,9 @@
 // Turn the points returned from perfect-freehand into SVG path data.
 
-import { Point } from "./types";
+import { Point } from './types';
 
 export function getSvgPathFromStroke(stroke: Point[]) {
-  if (!stroke.length) return "";
+  if (!stroke.length) return '';
 
   const d = stroke.reduce(
     (acc, [x0, y0], i, arr) => {
@@ -11,9 +11,14 @@ export function getSvgPathFromStroke(stroke: Point[]) {
       acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2);
       return acc;
     },
-    ["M", ...stroke[0], "Q"]
+    ['M', ...stroke[0], 'Q']
   );
 
-  d.push("Z");
-  return d.join(" ");
+  d.push('Z');
+  return d.join(' ');
 }
+
+export const scale =
+  (factor: number) =>
+  <T extends number[]>(coors: T) =>
+    coors.map((coor) => coor * factor) as T;

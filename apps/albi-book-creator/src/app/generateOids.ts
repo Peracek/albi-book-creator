@@ -1,12 +1,8 @@
-import { calcChecksum } from "./calcChecksum";
-import { getBbox } from "./getBbox";
-import pointInPolygon from "point-in-polygon";
-import { Point } from "./types";
-
-export const scale =
-  (factor: number) =>
-  <T extends number[]>(coors: T) =>
-    coors.map((coor) => coor * factor) as T;
+import { Point } from '@abc/storage';
+import { calcChecksum } from './calcChecksum';
+import { getBbox } from './getBbox';
+import pointInPolygon from 'point-in-polygon';
+import { scale } from './utils';
 
 // rester size
 const size = 32 * 2;
@@ -27,11 +23,11 @@ const oidFrame = (
 
 const generateOid = (value: number): Point[] => {
   const checksum = calcChecksum(value);
-  const base4Value = value.toString(4).padStart(8, "0");
+  const base4Value = value.toString(4).padStart(8, '0');
   const base4ValueWithChecksum = checksum + base4Value;
 
   const dots: Point[] = base4ValueWithChecksum
-    .split("")
+    .split('')
 
     .map((char, index) => {
       const x = index % 3;
@@ -39,19 +35,19 @@ const generateOid = (value: number): Point[] => {
       let cx = (x + 1) * spacing;
       let cy = (y + 1) * spacing;
 
-      if (char === "0") {
+      if (char === '0') {
         cx += offset;
         cy += offset;
       }
-      if (char === "1") {
+      if (char === '1') {
         cx -= offset;
         cy += offset;
       }
-      if (char === "2") {
+      if (char === '2') {
         cx -= offset;
         cy -= offset;
       }
-      if (char === "3") {
+      if (char === '3') {
         cx += offset;
         cy -= offset;
       }
