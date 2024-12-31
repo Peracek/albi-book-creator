@@ -7,6 +7,7 @@ export type ImageObject = {
   oid: number;
   name: string;
   stroke: Point[];
+  sound?: Blob;
 };
 
 export const db = new Dexie('AbcDatabase') as Dexie & {
@@ -14,5 +15,5 @@ export const db = new Dexie('AbcDatabase') as Dexie & {
 };
 
 db.version(1).stores({
-  imageObjects: '++id, oid, name, stroke',
+  imageObjects: '++id, oid, name, stroke', // don't index sound property
 });

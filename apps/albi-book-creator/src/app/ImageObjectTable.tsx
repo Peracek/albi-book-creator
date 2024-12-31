@@ -1,5 +1,7 @@
 import { ImageObject } from '@abc/storage';
-import { Table, TableProps, Tag } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Table, TableProps, Tag } from 'antd';
+import { UploadSound } from './Upload';
 
 const columns: TableProps<ImageObject>['columns'] = [
   {
@@ -13,6 +15,12 @@ const columns: TableProps<ImageObject>['columns'] = [
     key: 'oid',
     render: (oid: number) => <Tag>0x{oid.toString(16).padStart(4, '0')}</Tag>,
   },
+  {
+    title: 'Sound',
+    dataIndex: 'sound',
+    key: 'sound',
+    render: (_, imageObject) => <UploadSound imageObject={imageObject} />,
+  },
 ];
 
 type Props = {
@@ -20,5 +28,11 @@ type Props = {
 };
 
 export const ImageObjectTable = ({ data }: Props) => {
-  return <Table<ImageObject> columns={columns} dataSource={data} />;
+  return (
+    <Table<ImageObject>
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+    />
+  );
 };
