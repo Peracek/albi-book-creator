@@ -35,6 +35,18 @@ export const BackupAndRestore = () => {
       >
         <Button icon={<UploadOutlined />}>Restore database</Button>
       </Upload>
+      <Button
+        danger
+        onClick={() =>
+          modal.confirm({
+            title: 'Clear DB',
+            content: 'Are you sure you want to clear the database?',
+            onOk: () => db.imageObjects.clear(),
+          })
+        }
+      >
+        Clear
+      </Button>
     </Space>
   );
 };
