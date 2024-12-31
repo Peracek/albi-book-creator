@@ -12,6 +12,7 @@ import { ImageObjectTable } from './ImageObjectTable';
 import { exportDB } from 'dexie-export-import';
 import { saveAs } from 'file-saver';
 import { RestoreDb } from './RestoreDb';
+import { BackupAndRestore } from './BackupAndRestore';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -81,19 +82,7 @@ export const BookCreator = () => {
         <Space direction="vertical" size="middle">
           <ImageObjectTable data={areas} />
           <Button onClick={download}>Download OIDs PNG</Button>
-          <Button danger onClick={() => db.imageObjects.clear()}>
-            Clear
-          </Button>
-
-          <Button
-            onClick={async () => {
-              const blob = await exportDB(db);
-              saveAs(blob, 'abc.json');
-            }}
-          >
-            Backup database
-          </Button>
-          <RestoreDb />
+          <BackupAndRestore />
         </Space>
       </div>
       <canvas
