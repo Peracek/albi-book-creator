@@ -8,6 +8,7 @@ import { getSvgPathFromStroke } from './utils';
 import { oidTable } from './oidTable';
 import { db, Point } from '@abc/storage';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { ImageObjectTable } from './ImageObjectTable';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -75,20 +76,11 @@ export const BookCreator = () => {
 
       <div>
         <Space direction="vertical" size="middle">
-          <List
-            size="small"
-            bordered
-            dataSource={areas}
-            renderItem={(area) => (
-              <List.Item
-                onMouseEnter={() => setFocusedArea(area.name)}
-                onMouseLeave={() => setFocusedArea(null)}
-              >
-                {area.name} | 0x{area.oid.toString(16)}
-              </List.Item>
-            )}
-          />
+          <ImageObjectTable data={areas} />
           <Button onClick={download}>Download OIDs PNG</Button>
+          <Button danger onClick={() => db.imageObjects.clear()}>
+            Clear
+          </Button>
         </Space>
       </div>
       <canvas
