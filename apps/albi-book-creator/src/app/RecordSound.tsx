@@ -1,7 +1,7 @@
-import { db } from '@abc/storage';
+import { db, ImageObject } from '@abc/storage';
 import { useRef, useState } from 'react';
 
-export const RecordSound = ({ id }: { id: number }) => {
+export const RecordSound = ({ imageObject }: { imageObject: ImageObject }) => {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -14,15 +14,13 @@ export const RecordSound = ({ id }: { id: number }) => {
     };
     mediaRecorderRef.current.onstop = () => {
       const audioBlob = new Blob(audioChunksRef.current, {
-        type: 'audio/wav',
+        type: 'audio/webm',
       });
 
-      const fileName = `recording_${Math.random()
-        .toString(36)
-        .substring(7)}.wav`;
+      const fileName = `${imageObject.name}.webm`;
       const file = new File([audioBlob], fileName, { type: 'audio/wav' });
 
-      db.imageObjects.update(id, { sound: file });
+      db.imageObjects.update(imageObject.id, { sound: file });
     };
     mediaRecorderRef.current.start();
     setIsRecording(true);

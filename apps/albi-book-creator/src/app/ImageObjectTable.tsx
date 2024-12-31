@@ -22,7 +22,7 @@ const columns: TableProps<ImageObject>['columns'] = [
     render: (_, imageObject) => (
       <>
         <UploadSound imageObject={imageObject} />
-        <RecordSound id={imageObject.id} />
+        <RecordSound imageObject={imageObject} />
       </>
     ),
   },
