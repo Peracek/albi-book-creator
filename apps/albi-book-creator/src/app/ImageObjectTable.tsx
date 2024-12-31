@@ -32,6 +32,7 @@ export const ImageObjectTable = ({ data }: Props) => {
       columns={columns}
       dataSource={data}
       pagination={false}
+      rowKey="id"
     />
   );
 };

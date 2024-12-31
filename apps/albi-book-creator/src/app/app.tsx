@@ -62,12 +62,12 @@ export const BookCreator = () => {
           await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
         }}
       >
-        {areas.map((area, i) => {
+        {areas.map((area) => {
           const pathData = getSvgPathFromStroke(area.stroke as Point[]);
           const isFocused = focusedArea === area.name;
           return (
             <path
-              key={i}
+              key={area.id}
               d={pathData}
               id={area.name}
               style={{
