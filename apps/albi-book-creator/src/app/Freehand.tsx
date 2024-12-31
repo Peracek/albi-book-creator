@@ -22,24 +22,31 @@ const height = 210 * 2;
 
 export const Freehand = (props: Props) => {
   const [points, setPoints] = React.useState<Point[]>([]);
+  const svgRef = React.useRef<SVGSVGElement>(null);
 
-  // FIXME: use callback
+  const getSvgDimensions = () => {
+    if (svgRef.current) {
+      const rect = svgRef.current.getBoundingClientRect();
+      return { width: rect.width, height: rect.height };
+    }
+    return { width, height };
+  };
+
   const handlePointerDown: React.PointerEventHandler<SVGSVGElement> = (e) => {
     (e.target as Element).setPointerCapture(e.pointerId);
     const rect = e.currentTarget.getBoundingClientRect();
     setPoints([[e.clientX - rect.left, e.clientY - rect.top]]);
   };
 
-  // FIXME: use callback
   const handlePointerMove: React.PointerEventHandler<SVGSVGElement> = (e) => {
     if (e.buttons !== 1) return;
     const rect = e.currentTarget.getBoundingClientRect();
     setPoints([...points, [e.clientX - rect.left, e.clientY - rect.top]]);
   };
 
-  // FIXME: use callback
   const handlePointerUp = () => {
-    const factor = a4Points.h / width;
+    const { width: actualWidth } = getSvgDimensions();
+    const factor = a4Points.h / actualWidth;
     const scaledUpPoints = points.map(scale(factor));
     props.onStrokeEnd(scaledUpPoints);
     setPoints([]);
@@ -50,20 +57,21 @@ export const Freehand = (props: Props) => {
 
   return (
     <svg
+      ref={svgRef}
       id="drawboard"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       style={{
         touchAction: 'none',
-        width: `${width}px`,
-        height: `${height}px`,
         border: '1px solid #ddd',
+        aspectRatio: 297 / 210,
       }}
     >
       {points && <path d={pathData} />}
       {props.areas.map((area) => {
-        const factor = width / a4Points.h;
+        const { width: actualWidth } = getSvgDimensions();
+        const factor = actualWidth / a4Points.h;
         const scaledDownPoints = area.stroke.map(scale(factor));
         const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
         return (

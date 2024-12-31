@@ -1,5 +1,5 @@
 import { db } from '@abc/storage';
-import { Button, Space } from 'antd';
+import { Button, Flex, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
@@ -50,19 +50,20 @@ export const BookCreator = () => {
   };
 
   return (
-    <Space size="middle" align="start">
-      {/* <ImageCanvas /> */}
-      <Freehand
-        areas={areas}
-        onStrokeEnd={async (stroke) => {
-          const name = await showNameModal();
-          await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
-        }}
-      />
-
+    <Flex vertical justify="stretch" gap="middle">
+      <Flex gap="middle">
+        {/* <ImageCanvas /> */}
+        <Freehand
+          areas={areas}
+          onStrokeEnd={async (stroke) => {
+            const name = await showNameModal();
+            await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
+          }}
+        />
+        <ImageObjectTable data={areas} />
+      </Flex>
       <div>
         <Space direction="vertical" size="middle">
-          <ImageObjectTable data={areas} />
           <Button onClick={download}>Download OIDs PNG</Button>
           <BackupAndRestore />
         </Space>
@@ -74,7 +75,7 @@ export const BookCreator = () => {
         height={a4Points.v}
         style={{ border: '1px solid black', display: 'none' }}
       ></canvas>
-    </Space>
+    </Flex>
   );
 };
 

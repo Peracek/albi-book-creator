@@ -33,6 +33,7 @@ export const ImageObjectTable = ({ data }: Props) => {
       dataSource={data}
       pagination={false}
       rowKey="id"
+      style={{ width: '500px' }}
     />
   );
 };
