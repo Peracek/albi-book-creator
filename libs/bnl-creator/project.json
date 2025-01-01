@@ -13,6 +13,11 @@
         "main": "libs/bnl-creator/src/index.ts",
         "tsConfig": "libs/bnl-creator/tsconfig.lib.json",
         "assets": ["libs/bnl-creator/*.md"]
+      },
+      "configurations": {
+        "development": {
+          "watch": true
+        }
       }
     }
   }
