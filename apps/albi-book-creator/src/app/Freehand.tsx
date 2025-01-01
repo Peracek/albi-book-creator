@@ -53,8 +53,11 @@ export const Freehand = (props: Props) => {
     } = props.zoomPanRef.current!.instance.getContext().state;
     // debugger;
     const scaledUpPoints = points
+      // FIXME: make translate function
       .map(([x, y]) => [x - positionX, y - positionY] as Point)
-      .map(scale(factor / zoomFactor));
+      .map(scale(factor / zoomFactor))
+      .map(([x, y]) => [Math.floor(x), Math.floor(y)] as Point);
+
     props.onStrokeEnd(scaledUpPoints);
     setPoints([]);
   };

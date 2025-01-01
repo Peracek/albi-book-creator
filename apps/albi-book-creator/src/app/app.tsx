@@ -1,5 +1,5 @@
 import { db } from '@abc/storage';
-import { Button, Flex, Space } from 'antd';
+import { Button, Card, Flex, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
@@ -37,7 +37,7 @@ export const BookCreator = () => {
       })
       .flat()
       .forEach(([x, y]) => {
-        ctx.fillRect(x, y, 2, 2);
+        ctx.fillRect(x, y, 4, 4);
       });
 
     const dataURL = canvas.toDataURL('image/png');
@@ -51,20 +51,19 @@ export const BookCreator = () => {
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
       <Drawboard imageObjects={areas} />
-    </div>
-  );
-
-  return (
-    <Flex vertical justify="stretch" gap="middle">
-      <Flex gap="middle">
-        <ImageObjectTable data={areas} />
-      </Flex>
-      <div>
-        <Space direction="vertical" size="middle">
-          <Button onClick={download}>Download OIDs PNG</Button>
-          <BackupAndRestore />
-        </Space>
-      </div>
+      <Card style={{ position: 'absolute', top: 10, right: 10 }}>
+        <Flex vertical justify="stretch" gap="middle">
+          <Flex gap="middle">
+            <ImageObjectTable data={areas} />
+          </Flex>
+          <div>
+            <Space direction="vertical" size="middle">
+              <Button onClick={download}>Download OIDs PNG</Button>
+              <BackupAndRestore />
+            </Space>
+          </div>
+        </Flex>
+      </Card>
       <canvas
         ref={canvasRef}
         id="myCanvas"
@@ -72,7 +71,7 @@ export const BookCreator = () => {
         height={a4Points.v}
         style={{ border: '1px solid black', display: 'none' }}
       ></canvas>
-    </Flex>
+    </div>
   );
 };
 

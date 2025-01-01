@@ -12,6 +12,7 @@ import {
 import { Freehand } from './Freehand';
 import showNameModal from './showNameModal';
 import { Strokes } from './Strokes';
+import { A4 } from './A4';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -29,9 +30,16 @@ export const Drawboard = (props: Props) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        background:
+          'repeating-linear-gradient(45deg, lightgrey, lightgrey 10px, white 10px, white 20px)',
+      }}
+    >
       {img ? (
-        <div>
+        <div style={{ width: '100%', height: '100%' }}>
           <TransformWrapper
             ref={zoomPanRef}
             initialScale={1}
@@ -44,13 +52,18 @@ export const Drawboard = (props: Props) => {
                 height: '100%',
                 position: 'relative',
               }}
-              contentStyle={{ width: '100%', height: '100%' }}
             >
-              <img
-                style={{ width: '100%' }}
-                src={URL.createObjectURL(img.image)}
-              />
-              <Strokes areas={props.imageObjects} />
+              <A4>
+                <img
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                  src={URL.createObjectURL(img.image)}
+                />
+                <Strokes areas={props.imageObjects} />
+              </A4>
             </TransformComponent>
 
             <FloatButton
@@ -70,6 +83,7 @@ export const Drawboard = (props: Props) => {
                 name,
                 oid: STOP_BUTTON_CODE,
               });
+              setDrawing(false);
             }}
           />
         </div>
