@@ -10,6 +10,8 @@ import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
 import { showNameModal } from './showNameModal';
+import { Drawboard } from './Drawboard';
+import './app.module.css';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -50,16 +52,29 @@ export const BookCreator = () => {
   };
 
   return (
+    <div style={{ height: '100vh', width: '100vw' }}>
+      <Drawboard>
+        {(drawing) => (
+          <Freehand
+            drawing={drawing}
+            areas={areas}
+            onStrokeEnd={async (stroke) => {
+              const name = await showNameModal();
+              await db.imageObjects.add({
+                stroke,
+                name,
+                oid: STOP_BUTTON_CODE,
+              });
+            }}
+          />
+        )}
+      </Drawboard>
+    </div>
+  );
+
+  return (
     <Flex vertical justify="stretch" gap="middle">
       <Flex gap="middle">
-        {/* <ImageCanvas /> */}
-        <Freehand
-          areas={areas}
-          onStrokeEnd={async (stroke) => {
-            const name = await showNameModal();
-            await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
-          }}
-        />
         <ImageObjectTable data={areas} />
       </Flex>
       <div>

@@ -15,6 +15,7 @@ const options = {
 type Props = React.PropsWithChildren<{
   onStrokeEnd: (points: Point[]) => void;
   areas: ImageObject[];
+  drawing: boolean;
 }>;
 
 const width = 297 * 2;
@@ -63,6 +64,12 @@ export const Freehand = (props: Props) => {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: props.drawing ? 'auto' : 'none',
         touchAction: 'none',
         border: '1px solid #ddd',
         aspectRatio: 297 / 210,
