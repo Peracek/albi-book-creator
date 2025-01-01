@@ -37,7 +37,7 @@ export const BookCreator = () => {
       })
       .flat()
       .forEach(([x, y]) => {
-        ctx.fillRect(x, y, 4, 4);
+        ctx.fillRect(x, y, 2, 2);
       });
 
     const dataURL = canvas.toDataURL('image/png');

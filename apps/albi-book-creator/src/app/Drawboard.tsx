@@ -12,7 +12,7 @@ import {
 import { Freehand } from './Freehand';
 import showNameModal from './showNameModal';
 import { Strokes } from './Strokes';
-import { A4 } from './A4';
+import { A4, A4Ref } from './A4';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
@@ -22,6 +22,7 @@ type Props = {
 };
 
 export const Drawboard = (props: Props) => {
+  const a4Ref = useRef<A4Ref>(null);
   const zoomPanRef = useRef<ReactZoomPanPinchRef>(null);
   const [drawing, setDrawing] = useState(false);
   const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
@@ -53,7 +54,7 @@ export const Drawboard = (props: Props) => {
                 position: 'relative',
               }}
             >
-              <A4>
+              <A4 ref={a4Ref}>
                 <img
                   style={{
                     width: '100%',
@@ -62,7 +63,7 @@ export const Drawboard = (props: Props) => {
                   }}
                   src={URL.createObjectURL(img.image)}
                 />
-                <Strokes areas={props.imageObjects} />
+                <Strokes a4Ref={a4Ref} areas={props.imageObjects} />
               </A4>
             </TransformComponent>
 
@@ -73,6 +74,7 @@ export const Drawboard = (props: Props) => {
             />
           </TransformWrapper>
           <Freehand
+            a4Ref={a4Ref}
             zoomPanRef={zoomPanRef}
             drawing={drawing}
             areas={props.imageObjects}

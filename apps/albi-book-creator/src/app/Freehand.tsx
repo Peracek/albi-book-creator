@@ -1,11 +1,16 @@
 import { getStroke } from 'perfect-freehand';
-import * as React from 'react';
+import {
+  type PointerEventHandler,
+  type PropsWithChildren,
+  type RefObject,
+  useState,
+} from 'react';
 import { type ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 
-import { getSvgPathFromStroke, scale } from './utils';
+import { getSvgPathFromStroke, scale, translate } from './utils';
 import { ImageObject, Point } from '@abc/storage';
 import { a4Points } from './constants';
-import { useViewportSize } from './useViewportSize';
+import { A4Ref } from './A4';
 
 const options = {
   size: 5,
@@ -14,36 +19,32 @@ const options = {
   streamline: 0.5,
 };
 
-type Props = React.PropsWithChildren<{
+type Props = PropsWithChildren<{
   onStrokeEnd: (points: Point[]) => void;
   areas: ImageObject[];
   drawing: boolean;
-  zoomPanRef: React.RefObject<ReactZoomPanPinchRef>;
+  a4Ref: RefObject<A4Ref>;
+  zoomPanRef: RefObject<ReactZoomPanPinchRef>;
 }>;
 
 export const Freehand = (props: Props) => {
-  const [points, setPoints] = React.useState<Point[]>([]);
-  const viewportSize = useViewportSize();
+  const [points, setPoints] = useState<Point[]>([]);
 
-  const getSvgDimensions = () => {
-    return { width: viewportSize.width, height: viewportSize.height };
-  };
-
-  const handlePointerDown: React.PointerEventHandler<SVGSVGElement> = (e) => {
+  const handlePointerDown: PointerEventHandler<SVGSVGElement> = (e) => {
     (e.target as Element).setPointerCapture(e.pointerId);
     const rect = e.currentTarget.getBoundingClientRect();
     setPoints([[e.clientX - rect.left, e.clientY - rect.top]]);
   };
 
-  const handlePointerMove: React.PointerEventHandler<SVGSVGElement> = (e) => {
+  const handlePointerMove: PointerEventHandler<SVGSVGElement> = (e) => {
     if (e.buttons !== 1) return;
     const rect = e.currentTarget.getBoundingClientRect();
     setPoints([...points, [e.clientX - rect.left, e.clientY - rect.top]]);
   };
 
   const handlePointerUp = () => {
-    const { width: actualWidth } = getSvgDimensions();
-    const factor = a4Points.h / actualWidth;
+    const a4BoundingBox = props.a4Ref.current!.getInitialBoundingBox()!;
+    const factor = a4Points.h / a4BoundingBox.width;
 
     const {
       positionX,
@@ -51,8 +52,9 @@ export const Freehand = (props: Props) => {
       scale: zoomFactor,
       // } = props.zoomPanRef.current!.state;
     } = props.zoomPanRef.current!.instance.getContext().state;
-    // debugger;
     const scaledUpPoints = points
+      // .map(translate(-a4BoundingBox.left, -a4BoundingBox.top))
+
       // FIXME: make translate function
       .map(([x, y]) => [x - positionX, y - positionY] as Point)
       .map(scale(factor / zoomFactor))
