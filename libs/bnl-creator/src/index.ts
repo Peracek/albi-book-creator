@@ -2,6 +2,7 @@ import { program } from '@commander-js/extra-typings';
 import * as fs from 'fs-extra';
 import * as yaml from 'js-yaml';
 import { BnlYamlFile } from './typings';
+import { bnlCreator } from './lib/bnl-creator';
 
 program
   .command('load <path>')
@@ -10,9 +11,8 @@ program
     try {
       const fileContents = await fs.readFile(path, 'utf8');
       const yamlData = yaml.loadAll(fileContents) as BnlYamlFile;
-      const [header, quiz, oids] = yamlData;
-      // console.log({ header, quiz, oids });
-      console.log(oids);
+      const outputFilePath = path.replace('.yaml', '.bnl');
+      bnlCreator(yamlData, outputFilePath);
     } catch (error) {
       // @ts-expect-error
       console.error(`Error loading YAML file: ${error.message}`);

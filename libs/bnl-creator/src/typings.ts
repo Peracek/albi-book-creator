@@ -3,7 +3,7 @@
 export interface BnlHeader {
   book_id: number;
   sys_icons?: string[] | null;
-  encryption: Encryption;
+  encryption?: Encryption;
   book_mode_read: BookModeRead;
   start_button_1st_read: StartButton1stReadOrStartButton2ndRead;
   start_button_2nd_read: StartButton1stReadOrStartButton2ndRead;
@@ -14,7 +14,7 @@ export interface BnlHeader {
 }
 export interface Encryption {
   header_key: number;
-  prekey?: number[] | null;
+  prekey: number[];
   prekey_dw: number;
 }
 export interface BookModeRead {
