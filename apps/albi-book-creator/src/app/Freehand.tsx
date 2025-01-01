@@ -1,9 +1,11 @@
 import { getStroke } from 'perfect-freehand';
 import * as React from 'react';
+import { type ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 
 import { getSvgPathFromStroke, scale } from './utils';
 import { ImageObject, Point } from '@abc/storage';
 import { a4Points } from './constants';
+import { useViewportSize } from './useViewportSize';
 
 const options = {
   size: 5,
@@ -16,21 +18,15 @@ type Props = React.PropsWithChildren<{
   onStrokeEnd: (points: Point[]) => void;
   areas: ImageObject[];
   drawing: boolean;
+  zoomPanRef: React.RefObject<ReactZoomPanPinchRef>;
 }>;
-
-const width = 297 * 2;
-const height = 210 * 2;
 
 export const Freehand = (props: Props) => {
   const [points, setPoints] = React.useState<Point[]>([]);
-  const svgRef = React.useRef<SVGSVGElement>(null);
+  const viewportSize = useViewportSize();
 
   const getSvgDimensions = () => {
-    if (svgRef.current) {
-      const rect = svgRef.current.getBoundingClientRect();
-      return { width: rect.width, height: rect.height };
-    }
-    return { width, height };
+    return { width: viewportSize.width, height: viewportSize.height };
   };
 
   const handlePointerDown: React.PointerEventHandler<SVGSVGElement> = (e) => {
@@ -48,7 +44,17 @@ export const Freehand = (props: Props) => {
   const handlePointerUp = () => {
     const { width: actualWidth } = getSvgDimensions();
     const factor = a4Points.h / actualWidth;
-    const scaledUpPoints = points.map(scale(factor));
+
+    const {
+      positionX,
+      positionY,
+      scale: zoomFactor,
+      // } = props.zoomPanRef.current!.state;
+    } = props.zoomPanRef.current!.instance.getContext().state;
+    // debugger;
+    const scaledUpPoints = points
+      .map(([x, y]) => [x - positionX, y - positionY] as Point)
+      .map(scale(factor / zoomFactor));
     props.onStrokeEnd(scaledUpPoints);
     setPoints([]);
   };
@@ -58,7 +64,6 @@ export const Freehand = (props: Props) => {
 
   return (
     <svg
-      ref={svgRef}
       id="drawboard"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -76,23 +81,6 @@ export const Freehand = (props: Props) => {
       }}
     >
       {points && <path d={pathData} />}
-      {props.areas.map((area) => {
-        const { width: actualWidth } = getSvgDimensions();
-        const factor = actualWidth / a4Points.h;
-        const scaledDownPoints = area.stroke.map(scale(factor));
-        const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
-        return (
-          <path
-            key={area.id}
-            d={pathData}
-            id={area.name}
-            style={{
-              fill: 'rgba(0, 0, 0, 0.1)',
-              // fill: isFocused ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-            }}
-          />
-        );
-      })}
     </svg>
   );
 };
