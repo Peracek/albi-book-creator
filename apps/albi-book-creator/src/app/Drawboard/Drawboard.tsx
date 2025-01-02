@@ -20,16 +20,13 @@ const STOP_BUTTON_CODE = 0x0006;
 
 type Props = {
   imageObjects: ImageObject[];
+  img: Blob;
 };
 
-export const Drawboard = (props: Props) => {
+export const Drawboard = ({ imageObjects, img }: Props) => {
   const a4Ref = useRef<A4Ref>(null);
   const zoomPanRef = useRef<ReactZoomPanPinchRef>(null);
   const [drawing, setDrawing] = useState(false);
-  const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
-  const customRequest: UploadProps['customRequest'] = ({ file }) => {
-    db.pageImage.add({ image: file as File });
-  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -52,68 +49,57 @@ export const Drawboard = (props: Props) => {
         background: 'rgb(240, 242, 245)',
       }}
     >
-      {img ? (
-        <div style={{ width: '100%', height: '100%' }}>
-          <TransformWrapper
-            ref={zoomPanRef}
-            initialScale={0.8}
-            centerOnInit
-            disablePadding={drawing}
-            // limitToBounds={false}
-            minScale={0.8}
-          >
-            <TransformComponent
-              wrapperStyle={{
-                width: '100%',
-                height: '100%',
-                position: 'relative',
-              }}
-            >
-              <A4 ref={a4Ref}>
-                <img
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                  src={URL.createObjectURL(img.image)}
-                />
-                <Strokes a4Ref={a4Ref} areas={props.imageObjects} />
-              </A4>
-            </TransformComponent>
-            <Controls
-              drawing={drawing}
-              setDrawing={setDrawing}
-              zoomIn={() => zoomPanRef.current?.zoomIn()}
-              zoomOut={() => zoomPanRef.current?.zoomOut()}
-            />
-          </TransformWrapper>
-          <Freehand
-            a4Ref={a4Ref}
-            zoomPanRef={zoomPanRef}
-            drawing={drawing}
-            areas={props.imageObjects}
-            onStrokeEnd={async (stroke) => {
-              const name = await showNameModal();
-              await db.imageObjects.add({
-                stroke,
-                name,
-                oid: STOP_BUTTON_CODE,
-              });
-              setDrawing(false);
-            }}
-          />
-        </div>
-      ) : (
-        <Upload
-          name="image"
-          listType="picture"
-          showUploadList={false}
-          customRequest={customRequest}
+      <div style={{ width: '100%', height: '100%' }}>
+        <TransformWrapper
+          ref={zoomPanRef}
+          initialScale={0.8}
+          centerOnInit
+          disablePadding={drawing}
+          // limitToBounds={false}
+          minScale={0.8}
         >
-          <Button icon={<UploadOutlined />}>Upload Image</Button>
-        </Upload>
-      )}
+          <TransformComponent
+            wrapperStyle={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+            }}
+          >
+            <A4 ref={a4Ref}>
+              <img
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+                src={URL.createObjectURL(img)}
+              />
+              <Strokes a4Ref={a4Ref} areas={imageObjects} />
+            </A4>
+          </TransformComponent>
+          <Controls
+            drawing={drawing}
+            setDrawing={setDrawing}
+            zoomIn={() => zoomPanRef.current?.zoomIn()}
+            zoomOut={() => zoomPanRef.current?.zoomOut()}
+          />
+        </TransformWrapper>
+        <Freehand
+          a4Ref={a4Ref}
+          zoomPanRef={zoomPanRef}
+          drawing={drawing}
+          areas={imageObjects}
+          onStrokeEnd={async (stroke) => {
+            const name = await showNameModal();
+            await db.imageObjects.add({
+              stroke,
+              name,
+              oid: STOP_BUTTON_CODE,
+            });
+            setDrawing(false);
+          }}
+        />
+      </div>
     </div>
   );
 };

@@ -10,11 +10,13 @@ import { Drawboard } from './Drawboard';
 import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
+import { Welcome } from './Welcome';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [focusedArea, setFocusedArea] = useState<string | null>(null);
 
+  const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
   const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
 
   const download = () => {
@@ -46,9 +48,17 @@ export const BookCreator = () => {
     link.click();
   };
 
+  if (!img) {
+    return (
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <Welcome />
+      </div>
+    );
+  }
+
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
-      <Drawboard imageObjects={areas} />
+      <Drawboard imageObjects={areas} img={img.image} />
       <Card style={{ position: 'absolute', top: 10, right: 10 }}>
         <Flex vertical justify="stretch" gap="middle">
           <Flex gap="middle">

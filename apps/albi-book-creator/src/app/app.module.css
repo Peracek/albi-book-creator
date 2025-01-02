@@ -3,6 +3,7 @@ body {
   user-select: none;
   padding: 0;
   margin: 0;
+  background: rgb(240, 242, 245);
 }
 
 #drawboard {

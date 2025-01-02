@@ -14,7 +14,10 @@ export interface A4Ref {
   currentScale: number;
 }
 
-export const A4 = forwardRef<A4Ref, PropsWithChildren>(({ children }, ref) => {
+export const A4 = forwardRef<
+  A4Ref,
+  PropsWithChildren<{ viewportScale?: number }>
+>(({ children, viewportScale = 1 }, ref) => {
   const viewportSize = useViewportSize();
   const { width, height } = viewportSize;
 
@@ -45,8 +48,8 @@ export const A4 = forwardRef<A4Ref, PropsWithChildren>(({ children }, ref) => {
     <div
       ref={divRef}
       style={{
-        width: 297 * scale,
-        height: 210 * scale,
+        width: 297 * scale * viewportScale,
+        height: 210 * scale * viewportScale,
         position: 'relative',
         overflow: 'hidden',
         // border: '1px solid black',
