@@ -19,15 +19,21 @@ const options = {
   streamline: 0.5,
 };
 
-type Props = PropsWithChildren<{
+type Props = {
   onStrokeEnd: (points: Point[]) => void;
   areas: ImageObject[];
   drawing: boolean;
   a4Ref: RefObject<A4Ref>;
   zoomPanRef: RefObject<ReactZoomPanPinchRef>;
-}>;
+};
 
-export const Freehand = (props: Props) => {
+export const Freehand = ({
+  a4Ref,
+  zoomPanRef,
+  areas,
+  drawing,
+  onStrokeEnd,
+}: Props) => {
   const [points, setPoints] = useState<Point[]>([]);
 
   const handlePointerDown: PointerEventHandler<SVGSVGElement> = (e) => {
@@ -43,15 +49,13 @@ export const Freehand = (props: Props) => {
   };
 
   const handlePointerUp = () => {
-    const a4BoundingBox = props.a4Ref.current!.getInitialBoundingBox()!;
-    const factor = a4Points.h / a4BoundingBox.width;
+    const factor = 1 / a4Ref.current!.initialScale;
 
     const {
       positionX,
       positionY,
       scale: zoomFactor,
-      // } = props.zoomPanRef.current!.state;
-    } = props.zoomPanRef.current!.instance.getContext().state;
+    } = zoomPanRef.current!.instance.getContext().state;
     const scaledUpPoints = points
       // .map(translate(-a4BoundingBox.left, -a4BoundingBox.top))
 
@@ -60,7 +64,7 @@ export const Freehand = (props: Props) => {
       .map(scale(factor / zoomFactor))
       .map(([x, y]) => [Math.floor(x), Math.floor(y)] as Point);
 
-    props.onStrokeEnd(scaledUpPoints);
+    onStrokeEnd(scaledUpPoints);
     setPoints([]);
   };
 
@@ -79,7 +83,7 @@ export const Freehand = (props: Props) => {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: props.drawing ? 'auto' : 'none',
+        pointerEvents: drawing ? 'auto' : 'none',
         touchAction: 'none',
         border: '1px solid #ddd',
         aspectRatio: 297 / 210,

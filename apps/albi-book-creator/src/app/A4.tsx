@@ -6,10 +6,12 @@ import React, {
   useState,
 } from 'react';
 import { useViewportSize } from './useViewportSize';
-import { a4AspectRatio } from './constants';
+import { a4AspectRatio, a4Points } from './constants';
 
 export interface A4Ref {
-  getInitialBoundingBox: () => DOMRect | null;
+  initialScale: number;
+  // FIXME: remove, not used
+  currentScale: number;
 }
 
 export const A4 = forwardRef<A4Ref, PropsWithChildren>(({ children }, ref) => {
@@ -19,19 +21,23 @@ export const A4 = forwardRef<A4Ref, PropsWithChildren>(({ children }, ref) => {
   const scale = width / height > a4AspectRatio ? height / 210 : width / 297;
 
   const divRef = React.useRef<HTMLDivElement>(null);
-  const [initialBoundingBox, setInitialBoundingBox] = useState<DOMRect | null>(
-    null
-  );
+  const [intialScale, setIntialScale] = useState<number>();
 
   useEffect(() => {
     if (divRef.current) {
-      setInitialBoundingBox(divRef.current.getBoundingClientRect());
+      const bb = divRef.current.getBoundingClientRect();
+      const scalePxToA4In1200Dpi = bb.width / a4Points.h;
+      setIntialScale(scalePxToA4In1200Dpi);
     }
   }, []);
 
   useImperativeHandle(ref, () => ({
-    getInitialBoundingBox: () => {
-      return initialBoundingBox;
+    get initialScale() {
+      return intialScale!;
+    },
+    get currentScale() {
+      const bb = divRef.current!.getBoundingClientRect();
+      return bb.width / a4Points.h;
     },
   }));
 
