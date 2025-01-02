@@ -85,8 +85,6 @@ export const Freehand = ({
         height: '100%',
         pointerEvents: drawing ? 'auto' : 'none',
         touchAction: 'none',
-        border: '1px solid #ddd',
-        aspectRatio: 297 / 210,
       }}
     >
       {points && <path d={pathData} />}
