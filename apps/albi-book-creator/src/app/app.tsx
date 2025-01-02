@@ -1,5 +1,5 @@
 import { db } from '@abc/storage';
-import { Button, Flex, Space } from 'antd';
+import { Button, Card, Flex, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
@@ -10,9 +10,8 @@ import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
 import { showNameModal } from './showNameModal';
-
-// stop tlacitko (interni kod)
-const STOP_BUTTON_CODE = 0x0006;
+import { Drawboard } from './Drawboard';
+import './app.module.css';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -50,24 +49,21 @@ export const BookCreator = () => {
   };
 
   return (
-    <Flex vertical justify="stretch" gap="middle">
-      <Flex gap="middle">
-        {/* <ImageCanvas /> */}
-        <Freehand
-          areas={areas}
-          onStrokeEnd={async (stroke) => {
-            const name = await showNameModal();
-            await db.imageObjects.add({ stroke, name, oid: STOP_BUTTON_CODE });
-          }}
-        />
-        <ImageObjectTable data={areas} />
-      </Flex>
-      <div>
-        <Space direction="vertical" size="middle">
-          <Button onClick={download}>Download OIDs PNG</Button>
-          <BackupAndRestore />
-        </Space>
-      </div>
+    <div style={{ height: '100vh', width: '100vw' }}>
+      <Drawboard imageObjects={areas} />
+      <Card style={{ position: 'absolute', top: 10, right: 10 }}>
+        <Flex vertical justify="stretch" gap="middle">
+          <Flex gap="middle">
+            <ImageObjectTable data={areas} />
+          </Flex>
+          <div>
+            <Space direction="vertical" size="middle">
+              <Button onClick={download}>Download OIDs PNG</Button>
+              <BackupAndRestore />
+            </Space>
+          </div>
+        </Flex>
+      </Card>
       <canvas
         ref={canvasRef}
         id="myCanvas"
@@ -75,7 +71,7 @@ export const BookCreator = () => {
         height={a4Points.v}
         style={{ border: '1px solid black', display: 'none' }}
       ></canvas>
-    </Flex>
+    </div>
   );
 };
 

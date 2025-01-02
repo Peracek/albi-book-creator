@@ -41,7 +41,10 @@ export const BackupAndRestore = () => {
           modal.confirm({
             title: 'Clear DB',
             content: 'Are you sure you want to clear the database?',
-            onOk: () => db.imageObjects.clear(),
+            onOk: () => {
+              db.imageObjects.clear();
+              db.pageImage.clear();
+            },
           })
         }
       >

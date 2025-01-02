@@ -35,3 +35,7 @@ To see all available targets to run for a project, run:
 ```sh
 npx nx show project albi-book-creator
 ```
+
+## TODOs
+
+[] drag'n'drop image || db restore

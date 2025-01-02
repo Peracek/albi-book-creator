@@ -1,4 +1,4 @@
-import { Point } from "./types";
+import { Point } from '@abc/storage';
 
 export const getBbox = (
   points: Point[]
