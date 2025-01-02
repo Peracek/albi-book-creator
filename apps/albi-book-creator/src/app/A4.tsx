@@ -49,8 +49,9 @@ export const A4 = forwardRef<A4Ref, PropsWithChildren>(({ children }, ref) => {
         height: 210 * scale,
         position: 'relative',
         overflow: 'hidden',
-        border: '1px solid black',
+        // border: '1px solid black',
         background: 'white',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Added shadow
       }}
     >
       {children}
