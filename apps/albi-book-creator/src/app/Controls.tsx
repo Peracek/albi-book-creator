@@ -14,14 +14,18 @@ type Props = {
 
 export const Controls = ({ drawing, setDrawing, zoomIn, zoomOut }: Props) => {
   return (
-    <FloatButton.Group shape="circle">
-      <FloatButton icon={<ZoomInOutlined />} onClick={zoomIn} />
-      <FloatButton icon={<ZoomOutOutlined />} onClick={zoomOut} />
-      <FloatButton
-        type={drawing ? 'primary' : 'default'}
-        icon={<SignatureOutlined />}
-        onClick={() => setDrawing(!drawing)}
-      />
-    </FloatButton.Group>
+    <>
+      <FloatButton.Group style={{ insetInlineEnd: 24 }}>
+        <FloatButton icon={<ZoomInOutlined />} onClick={zoomIn} />
+        <FloatButton icon={<ZoomOutOutlined />} onClick={zoomOut} />
+      </FloatButton.Group>
+      <FloatButton.Group style={{ insetInlineEnd: 92 }}>
+        <FloatButton
+          type={drawing ? 'primary' : 'default'}
+          icon={<SignatureOutlined />}
+          onClick={() => setDrawing(!drawing)}
+        />
+      </FloatButton.Group>
+    </>
   );
 };
