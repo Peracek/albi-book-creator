@@ -9,13 +9,10 @@ import {
   TransformComponent,
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
-import { Freehand } from './Freehand';
-import showNameModal from './showNameModal';
-import { Strokes } from './Strokes';
 import { A4, A4Ref } from './A4';
 
 // stop tlacitko (interni kod)
-const STOP_BUTTON_CODE = 0x0006;
+// const STOP_BUTTON_CODE = 0x0006;
 
 type Props = {
   imageObjects: ImageObject[];
@@ -65,7 +62,7 @@ export const Drawboard = (props: Props) => {
                   }}
                   src={URL.createObjectURL(img.image)}
                 />
-                <Strokes a4Ref={a4Ref} areas={props.imageObjects} />
+                {/* <Strokes a4Ref={a4Ref} areas={props.imageObjects} /> */}
               </A4>
             </TransformComponent>
 
@@ -75,7 +72,7 @@ export const Drawboard = (props: Props) => {
               onClick={() => setDrawing((isOn) => !isOn)}
             />
           </TransformWrapper>
-          <Freehand
+          {/* <Freehand
             a4Ref={a4Ref}
             zoomPanRef={zoomPanRef}
             drawing={drawing}
@@ -89,7 +86,7 @@ export const Drawboard = (props: Props) => {
               });
               setDrawing(false);
             }}
-          />
+          /> */}
         </div>
       ) : (
         <Upload
