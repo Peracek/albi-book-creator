@@ -16,7 +16,7 @@ export const BackupAndRestore = () => {
         }}
         icon={<DownloadOutlined />}
       >
-        Backup database
+        Backup
       </Button>
       <Upload
         fileList={[]}
@@ -33,7 +33,7 @@ export const BackupAndRestore = () => {
           });
         }}
       >
-        <Button icon={<UploadOutlined />}>Restore database</Button>
+        <Button icon={<UploadOutlined />}>Restore</Button>
       </Upload>
       <Button
         danger
