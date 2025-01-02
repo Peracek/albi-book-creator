@@ -24,7 +24,7 @@ export const Strokes = ({ a4Ref, areas }: Props) => {
       }}
     >
       {areas.map((area) => {
-        const factor = a4Ref.current!.initialScale;
+        const factor = a4Ref.current?.initialScale ?? 1;
         const scaledDownPoints = area.stroke.map(scale(factor));
         const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
         return (
