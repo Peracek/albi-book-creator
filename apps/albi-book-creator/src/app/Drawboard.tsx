@@ -3,7 +3,7 @@ import { SignatureOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, FloatButton, Upload } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   ReactZoomPanPinchRef,
   TransformComponent,
@@ -29,6 +29,19 @@ export const Drawboard = (props: Props) => {
   const customRequest: UploadProps['customRequest'] = ({ file }) => {
     db.pageImage.add({ image: file as File });
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'I' || e.key === 'i') {
+        setDrawing((isOn) => !isOn);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     <div
