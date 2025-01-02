@@ -1,19 +1,19 @@
 import { db, ImageObject } from '@abc/storage';
-import { SignatureOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { Button, FloatButton, Upload } from 'antd';
+import { Button, Upload } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ReactZoomPanPinchRef,
   TransformComponent,
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
+import { A4, A4Ref } from './A4';
+import { Controls } from './Controls';
 import { Freehand } from './Freehand';
 import showNameModal from './showNameModal';
 import { Strokes } from './Strokes';
-import { A4, A4Ref } from './A4';
-import { Controls } from './Controls';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;

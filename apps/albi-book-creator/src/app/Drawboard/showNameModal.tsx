@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import ReactDOM from "react-dom";
-import { Modal, Input, InputRef } from "antd";
+import React, { useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import { Modal, Input, InputRef } from 'antd';
 
 export const showNameModal = (): Promise<string> => {
   return new Promise((resolve) => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const modalRef = { close: () => {} }; // Reference to close modal
 
     const handleOk = (value: string) => {
@@ -12,7 +13,7 @@ export const showNameModal = (): Promise<string> => {
     };
 
     const ModalContent = () => {
-      const [name, setName] = useState<string>("");
+      const [name, setName] = useState<string>('');
       const inputRef = useRef<InputRef>(null);
 
       React.useEffect(() => {
@@ -41,7 +42,7 @@ export const showNameModal = (): Promise<string> => {
       );
     };
 
-    const container = document.createElement("div");
+    const container = document.createElement('div');
     document.body.appendChild(container);
 
     const closeModal = () => {

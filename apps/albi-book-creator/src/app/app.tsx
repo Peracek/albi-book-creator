@@ -3,15 +3,13 @@ import { Button, Card, Flex, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
+import './app.module.css';
 import { BackupAndRestore } from './BackupAndRestore';
 import { a4Points } from './constants';
-import { Freehand } from './Freehand';
+import { Drawboard } from './Drawboard';
 import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
-import { showNameModal } from './showNameModal';
-import { Drawboard } from './Drawboard';
-import './app.module.css';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
