@@ -46,6 +46,8 @@ export const Drawboard = (props: Props) => {
             initialScale={1}
             centerOnInit
             disablePadding={drawing}
+            limitToBounds={false}
+            minScale={0.8}
           >
             <TransformComponent
               wrapperStyle={{
