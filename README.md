@@ -10,12 +10,6 @@ Start FE dev server
 npx nx serve albi-book-creator
 ```
 
-## Backend
-
-There is git submodule at `apps/backend/albituzka` containing perl scripts.
-
-FIXME: Dockerfile for BE (running perl scripts)
-
 ## Run tasks
 
 To run the dev server for your app, use:
