@@ -7,18 +7,18 @@
     "prekey_dw": 245
   },
   "book_mode_read": {
-    "mode_0": ["mod_zakladni_mp3_data"],
-    "mode_2": ["mod_vice_inf_mp3_data"]
+    "mode_0": ["mod_zakladni.mp3"],
+    "mode_2": ["mod_vice_inf.mp3"]
   },
   "start_button_1st_read": {
-    "mode_0": ["kniha_vitej1_mp3_data"],
-    "mode_1": ["kniha_vitej1_mp3_data"],
-    "mode_2": ["kniha_vitej1_mp3_data"]
+    "mode_0": ["kniha_vitej1.mp3"],
+    "mode_1": ["kniha_vitej1.mp3"],
+    "mode_2": ["kniha_vitej1.mp3"]
   },
   "start_button_2nd_read": {
-    "mode_0": ["kniha_vitej2_mp3_data"],
-    "mode_1": ["kniha_vitej2_mp3_data"],
-    "mode_2": ["kniha_vitej2_mp3_data"]
+    "mode_0": ["kniha_vitej2.mp3"],
+    "mode_1": ["kniha_vitej2.mp3"],
+    "mode_2": ["kniha_vitej2.mp3"]
   },
   "unk_tbl_ptr_16": ["oid_x01A6_chime", "oid_x01A7_chime", "oid_x01A8_chime"],
   "unk_tbl_ptr_27": [

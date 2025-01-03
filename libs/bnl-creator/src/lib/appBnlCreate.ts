@@ -1,7 +1,6 @@
 import { BnlSpec, OidsSpec } from '../typings';
 import { bnl_create } from './bnlCreate';
 import bnlHeader from './bnlHeader.json';
-import { files as defaultSounds } from './files';
 
 function blobToBinaryString(blob: Blob) {
   return new Promise<string>((resolve, reject) => {
@@ -35,7 +34,7 @@ export const appBnlCreate = async (
   const soundsBinaryStrings = Object.fromEntries(soundsBinaryStringsPairs);
 
   const bnlSpec: BnlSpec = [bnlHeader, {}, oids];
-  const bnl = bnl_create(bnlSpec, { ...defaultSounds, ...soundsBinaryStrings });
+  const bnl = bnl_create(bnlSpec, soundsBinaryStrings);
 
   const byteArray = new Uint8Array(bnl);
   const blob = new Blob([byteArray], {
