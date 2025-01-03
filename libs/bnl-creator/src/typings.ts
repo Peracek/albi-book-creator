@@ -51,9 +51,11 @@ export interface QuestionsEntity {
 }
 
 // OIDS
+// e.g. oid_x0001
+type Oid = `oid_${number}`;
 
-export type Oids = Record<string, Oid>;
-type Oid = {
+export type OidsSpec = Record<Oid, ModeSounds>;
+type ModeSounds = {
   mode_0?: string[] | null;
   mode_1?: string[] | null;
   mode_2?: string[] | null;
@@ -61,4 +63,4 @@ type Oid = {
 
 // BNL YAML FILE
 
-export type BnlSpec = [BnlHeader, Quiz, Oids];
+export type BnlSpec = [BnlHeader, Quiz, OidsSpec];

@@ -2,6 +2,7 @@ import { ImageObject } from '@abc/storage';
 import { Table, TableProps, Tag } from 'antd';
 import { UploadSound } from './UploadSound';
 import { RecordSound } from './RecordSound';
+import { AudioRecorder } from './AudioRecorder';
 
 const columns: TableProps<ImageObject>['columns'] = [
   {
@@ -22,7 +23,8 @@ const columns: TableProps<ImageObject>['columns'] = [
     render: (_, imageObject) => (
       <>
         <UploadSound imageObject={imageObject} />
-        <RecordSound imageObject={imageObject} />
+        {/* <RecordSound imageObject={imageObject} /> */}
+        <AudioRecorder imageObject={imageObject} />
       </>
     ),
   },

@@ -1,0 +1,33 @@
+{
+  "book_id": 3761,
+  "sys_icons": ["volume_up", "volume_down", "stop"],
+  "encryption": {
+    "header_key": 256,
+    "prekey": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "prekey_dw": 245
+  },
+  "book_mode_read": {
+    "mode_0": ["mod_zakladni_mp3_data"],
+    "mode_2": ["mod_vice_inf_mp3_data"]
+  },
+  "start_button_1st_read": {
+    "mode_0": ["kniha_vitej1_mp3_data"],
+    "mode_1": ["kniha_vitej1_mp3_data"],
+    "mode_2": ["kniha_vitej1_mp3_data"]
+  },
+  "start_button_2nd_read": {
+    "mode_0": ["kniha_vitej2_mp3_data"],
+    "mode_1": ["kniha_vitej2_mp3_data"],
+    "mode_2": ["kniha_vitej2_mp3_data"]
+  },
+  "unk_tbl_ptr_16": ["oid_x01A6_chime", "oid_x01A7_chime", "oid_x01A8_chime"],
+  "unk_tbl_ptr_27": [
+    "oid_x01A9_buzz",
+    "oid_x01AA_buzz",
+    "oid_x01AB_buzz",
+    "oid_x01AC_buzz",
+    "oid_x01AD_buzz"
+  ],
+  "unk_tbl_ptr_28": ["oid_x01AE_ting", "oid_x01AF_ting", "oid_x01B0_ting"],
+  "unk_tbl_ptr_29": ["oid_x01B5_buzz", "oid_x01B6_buzz", "oid_x01B7_buzz"]
+}

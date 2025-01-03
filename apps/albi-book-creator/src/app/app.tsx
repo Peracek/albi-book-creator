@@ -12,6 +12,8 @@ import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
 import { Welcome } from './Welcome';
 import { DownloadOutlined } from '@ant-design/icons';
+import { appBnlCreate, OidsSpec } from '@abc/bnl-creator';
+import { saveAs } from 'file-saver';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,7 +51,23 @@ export const BookCreator = () => {
     link.click();
   };
 
-  const downloadBnl = () => {};
+  const downloadBnl = async () => {
+    const oidsSpec: OidsSpec = Object.fromEntries(
+      areas.map((area) => [
+        `oid_${area.oid}`,
+        { mode_0: [area.sound?.name ?? ''], mode_1: [area.sound?.name ?? ''] },
+      ])
+    );
+
+    const sounds = Object.fromEntries(
+      areas
+        .map((area) => (area.sound ? [area.sound.name, area.sound] : undefined))
+        .filter((x) => x !== undefined)
+    );
+
+    const bnlBlob = await appBnlCreate(oidsSpec, sounds);
+    saveAs(bnlBlob, 'test.bnl');
+  };
 
   if (!img) {
     return (

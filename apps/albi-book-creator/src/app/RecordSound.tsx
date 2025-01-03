@@ -1,34 +1,27 @@
 import { db, ImageObject } from '@abc/storage';
 import { useRef, useState } from 'react';
+import MicRecorder from 'mic-recorder-to-mp3';
 
 export const RecordSound = ({ imageObject }: { imageObject: ImageObject }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
+
+  const recorderRef = useRef(new MicRecorder({ bitRate: 128 }));
 
   const handleStartRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorderRef.current = new MediaRecorder(stream);
-    mediaRecorderRef.current.ondataavailable = (event) => {
-      audioChunksRef.current.push(event.data);
-    };
-    mediaRecorderRef.current.onstop = () => {
-      const audioBlob = new Blob(audioChunksRef.current, {
-        type: 'audio/webm',
-      });
-
-      const fileName = `${imageObject.name}.webm`;
-      const file = new File([audioBlob], fileName, { type: 'audio/wav' });
-
-      db.imageObjects.update(imageObject.id, { sound: file });
-    };
-    mediaRecorderRef.current.start();
+    await recorderRef.current.start();
     setIsRecording(true);
   };
 
   const handleStopRecording = () => {
-    mediaRecorderRef.current?.stop();
-    setIsRecording(false);
+    const mp3Blob = recorderRef.current.stop().getMp3();
+
+    const fileName = `${imageObject.name}.mp3`;
+    const file = new File([mp3Blob], fileName, {
+      type: mp3Blob.type,
+      lastModified: Date.now(),
+    });
+
+    db.imageObjects.update(imageObject.id, { sound: file });
   };
 
   return (

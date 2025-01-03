@@ -1,6 +1,6 @@
 declare function bnl_create(
   jsonOri: BnlSpec,
-  getFile: (name: string) => string
+  files: Record<string, string>
 ): Array;
 
 export { bnl_create };

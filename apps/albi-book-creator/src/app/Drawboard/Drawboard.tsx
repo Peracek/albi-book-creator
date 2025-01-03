@@ -15,10 +15,6 @@ import { Freehand } from './Freehand';
 import showNameModal from './showNameModal';
 import { Strokes } from './Strokes';
 
-// stop tlacitko (interni kod)
-const STOP_BUTTON_CODE = 0x0006;
-const OID_start = 11000;
-
 type Props = {
   imageObjects: ImageObject[];
   img: Blob;

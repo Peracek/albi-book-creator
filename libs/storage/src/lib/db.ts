@@ -7,7 +7,7 @@ export type ImageObject = {
   oid: number;
   name: string;
   stroke: Point[];
-  sound?: Blob;
+  sound?: File;
 };
 
 export const db = new Dexie('AbcDatabase') as Dexie & {
@@ -20,7 +20,10 @@ db.version(1).stores({
   pageImage: '++id', // don't index image property
 });
 
-const START_OID = 11000;
+// FIXME: bring back
+// const START_OID = 11000;
+const START_OID = 11015;
+
 export const getNextOid = async () => {
   const lastRecord = await db.imageObjects.orderBy('oid').last();
   return lastRecord?.oid ? lastRecord.oid + 1 : START_OID;
