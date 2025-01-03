@@ -21,7 +21,6 @@
     "file-saver": "^2.0.5",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
-    "mic-recorder-to-mp3": "^2.2.2",
     "mp3-mediarecorder": "^4.0.5",
     "perfect-freehand": "^1.2.2",
     "point-in-polygon": "^1.1.0",
