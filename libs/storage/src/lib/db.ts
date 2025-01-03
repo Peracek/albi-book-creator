@@ -19,3 +19,9 @@ db.version(1).stores({
   imageObjects: '++id, oid, name, stroke', // don't index sound property
   pageImage: '++id', // don't index image property
 });
+
+const START_OID = 11000;
+export const getNextOid = async () => {
+  const lastRecord = await db.imageObjects.orderBy('oid').last();
+  return lastRecord?.oid ? lastRecord.oid + 1 : START_OID;
+};

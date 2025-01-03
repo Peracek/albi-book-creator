@@ -1,4 +1,4 @@
-import { db, ImageObject } from '@abc/storage';
+import { db, getNextOid, ImageObject } from '@abc/storage';
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, Upload } from 'antd';
@@ -17,6 +17,7 @@ import { Strokes } from './Strokes';
 
 // stop tlacitko (interni kod)
 const STOP_BUTTON_CODE = 0x0006;
+const OID_start = 11000;
 
 type Props = {
   imageObjects: ImageObject[];
@@ -94,7 +95,7 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
             await db.imageObjects.add({
               stroke,
               name,
-              oid: STOP_BUTTON_CODE,
+              oid: await getNextOid(),
             });
             setDrawing(false);
           }}
