@@ -61,4 +61,4 @@ type Oid = {
 
 // BNL YAML FILE
 
-export type BnlYamlFile = [BnlHeader, Quiz, Oids];
+export type BnlSpec = [BnlHeader, Quiz, Oids];
