@@ -1,31 +1,36 @@
-import { useState } from 'react';
+import { Mp3MediaRecorder } from 'mp3-mediarecorder';
+import { useEffect, useRef, useState } from 'react';
+// import mp3RecorderWorker from './worker?worker';
 
 export const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
+  const recorderRef = useRef(null);
+  // const worker = useRef(mp3RecorderWorker());
 
   const handleStart = () => {
     window.navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        window.mp3MediaRecorder.ondataavailable = (event) => {
+        const recorder = (recorderRef.current = recorder);
+        recorder.ondataavailable = (event) => {
           console.log('ondataavailable', event.data);
           // store reciroded data
         };
-        window.mp3MediaRecorder.onstart = () => {
+        recorder.onstart = () => {
           console.log('onstart');
           setIsRecording(true);
         };
-        window.mp3MediaRecorder.onstop = () => {
+        recorder.onstop = () => {
           console.log('onstop');
           setIsRecording(false);
         };
 
-        window.mp3MediaRecorder.start();
+        recorder.start();
       });
   };
 
   const hadnleStop = () => {
-    window.mp3MediaRecorder.stop();
+    recorderRef.current.stop();
   };
 
   return (
