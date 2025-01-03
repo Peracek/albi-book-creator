@@ -1,8 +1,8 @@
-import { Point } from '@abc/storage';
+import { type Point, scale } from '@abc/shared';
 import { calcChecksum } from './calcChecksum';
 import { getBbox } from './getBbox';
 import pointInPolygon from 'point-in-polygon';
-import { scale } from './utils';
+import { oidTable } from './oidTable';
 
 // rester size
 const size = 32 * 2;
@@ -58,7 +58,8 @@ const generateOid = (value: number): Point[] => {
   return [...oidFrame, ...dots];
 };
 
-export const generateOids = (value: number, boundingPolygon: Point[]) => {
+export const generateOids = (oid: number, boundingPolygon: Point[]) => {
+  const rawOid = oidTable[oid];
   const bbox = getBbox(boundingPolygon);
   const alignedBbox = [
     Math.floor(bbox[0] / size) * size,
@@ -75,7 +76,7 @@ export const generateOids = (value: number, boundingPolygon: Point[]) => {
     for (let y = 0; y < repeatY; y++) {
       const offsetx = x * size;
       const offsety = y * size;
-      const oid = generateOid(value);
+      const oid = generateOid(rawOid);
       oids.push(
         ...oid.map(
           ([x, y]) =>

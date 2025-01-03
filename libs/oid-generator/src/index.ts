@@ -1,1 +1,1 @@
-export * from './lib/oid-generator';
+export { generateOids } from './lib/generateOids';

@@ -1,8 +1,8 @@
 import { getStroke } from 'perfect-freehand';
 import { type PointerEventHandler, type RefObject, useState } from 'react';
 import { type ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
-import { ImageObject, Point } from '@abc/storage';
-import { scale } from '../utils';
+import { ImageObject } from '@abc/storage';
+import { type Point, scale } from '@abc/shared';
 import { A4Ref } from './A4';
 import { getSvgPathFromStroke } from './getSvgPathFromStroke';
 

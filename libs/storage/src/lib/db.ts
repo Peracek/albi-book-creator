@@ -1,6 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-
-export type Point = [x: number, y: number];
+import type { Point } from '@abc/shared';
 
 export type ImageObject = {
   id: number;

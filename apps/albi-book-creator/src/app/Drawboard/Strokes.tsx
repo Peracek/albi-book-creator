@@ -1,8 +1,8 @@
-import { ImageObject, Point } from '@abc/storage';
+import { ImageObject } from '@abc/storage';
 import { RefObject } from 'react';
 import { A4Ref } from './A4';
-import { scale } from '../utils';
 import { getSvgPathFromStroke } from './getSvgPathFromStroke';
+import { type Point, scale } from '@abc/shared';
 
 type Props = {
   areas: ImageObject[];

@@ -7,14 +7,13 @@ import './app.module.css';
 import { BackupAndRestore } from './BackupAndRestore';
 import { a4Points } from './constants';
 import { Drawboard } from './Drawboard';
-import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
-import { oidTable } from './oidTable';
 import { Welcome } from './Welcome';
 import { DownloadOutlined } from '@ant-design/icons';
 import { appBnlCreate, OidsSpec } from '@abc/bnl-creator';
 import { saveAs } from 'file-saver';
 import { fromPairs } from 'lodash';
+import { generateOids } from '@abc/oid-generator';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -35,8 +34,8 @@ export const BookCreator = () => {
     areas
       .map((area) => {
         const boundingPolygon = area.stroke;
-        const rawOidCode = oidTable[area.oid];
-        const oids = generateOids(rawOidCode, boundingPolygon);
+
+        const oids = generateOids(area.oid, boundingPolygon);
         return oids;
       })
       .flat()

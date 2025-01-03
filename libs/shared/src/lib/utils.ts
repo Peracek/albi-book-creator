@@ -1,6 +1,4 @@
-// Turn the points returned from perfect-freehand into SVG path data.
-
-import { Point } from '@abc/storage';
+import { Point } from './typings';
 
 export const scale =
   (factor: number) =>
