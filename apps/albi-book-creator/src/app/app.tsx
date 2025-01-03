@@ -11,6 +11,7 @@ import { generateOids } from './generateOids';
 import { ImageObjectTable } from './ImageObjectTable';
 import { oidTable } from './oidTable';
 import { Welcome } from './Welcome';
+import { DownloadOutlined } from '@ant-design/icons';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -48,6 +49,8 @@ export const BookCreator = () => {
     link.click();
   };
 
+  const downloadBnl = () => {};
+
   if (!img) {
     return (
       <div style={{ height: '100vh', width: '100vw' }}>
@@ -66,7 +69,14 @@ export const BookCreator = () => {
           </Flex>
           <div>
             <Space direction="vertical" size="middle">
-              <Button onClick={download}>Download OIDs PNG</Button>
+              <Space>
+                <Button onClick={download} icon={<DownloadOutlined />}>
+                  OIDs PNG
+                </Button>
+                <Button onClick={downloadBnl} icon={<DownloadOutlined />}>
+                  BNL
+                </Button>
+              </Space>
               <BackupAndRestore />
             </Space>
           </div>
