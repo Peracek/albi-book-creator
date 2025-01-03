@@ -17,6 +17,7 @@
     "paths": {
       "@abc/bnl-creator": ["libs/bnl-creator/src/index.ts"],
       "@abc/oid-generator": ["libs/oid-generator/src/index.ts"],
+      "@abc/shared": ["libs/shared/src/index.ts"],
       "@abc/storage": ["libs/storage/src/index.ts"]
     }
   },
