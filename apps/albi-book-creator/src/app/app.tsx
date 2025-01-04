@@ -102,7 +102,19 @@ export const BookCreator = () => {
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
       <Drawboard imageObjects={areas} img={img.image} />
-      <Card style={{ position: 'absolute', top: 10, right: 10 }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          height: '60vh',
+          overflowY: 'scroll',
+        }}
+      >
+        <AreaList areas={areas} onClick={(area) => setModalArea(area)} />
+      </div>
+
+      {/* <Card style={{ position: 'absolute', top: 10, right: 10 }}>
         <Flex vertical justify="stretch" gap="middle">
           <Flex gap="middle" onClick={() => setModalArea(areas[0])}>
             <AreaList areas={areas} onClick={(area) => setModalArea(area)} />
@@ -121,7 +133,7 @@ export const BookCreator = () => {
             </Space>
           </div>
         </Flex>
-      </Card>
+      </Card> */}
       {modalArea && (
         <AreaDetail area={modalArea} onClose={() => setModalArea(null)} />
       )}
