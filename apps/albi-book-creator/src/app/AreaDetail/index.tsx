@@ -1,1 +1,1 @@
-export { AreaDetail } from './AreaDetail';
+export { AreaDetailModal } from './AreaDetailModal';

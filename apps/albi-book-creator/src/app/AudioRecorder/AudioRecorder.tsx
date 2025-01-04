@@ -2,6 +2,8 @@ import { Mp3MediaRecorder } from 'mp3-mediarecorder';
 import { useEffect, useRef, useState } from 'react';
 import mp3RecorderWorker from './worker?worker';
 import { db, ImageObject } from '@abc/storage';
+import { Button } from 'antd';
+import { AudioOutlined } from '@ant-design/icons';
 
 export const AudioRecorder = ({
   imageObject,
@@ -50,9 +52,16 @@ export const AudioRecorder = ({
 
   return (
     <div>
-      <button onClick={isRecording ? hadnleStop : handleStart}>
+      <Button
+        icon={<AudioOutlined />}
+        onClick={isRecording ? hadnleStop : handleStart}
+      >
         {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
+      </Button>
     </div>
   );
 };
+
+/**
+ * FIXME: use https://www.npmjs.com/package/react-countdown-circle-timer
+ */

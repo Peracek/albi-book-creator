@@ -14,13 +14,13 @@ import { appBnlCreate, OidsSpec } from '@abc/bnl-creator';
 import { saveAs } from 'file-saver';
 import { fromPairs } from 'lodash';
 import { generateOids } from '@abc/oid-generator';
-import { AreaDetail } from './AreaDetail';
+import { AreaDetailModal } from './AreaDetail';
 import { AreaList } from './AreaList';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [focusedArea, setFocusedArea] = useState<string | null>(null);
-  const [modalArea, setModalArea] = useState<ImageObject | null>(null);
+  const [modalAreaId, setModalAreaId] = useState<number | null>(null);
 
   const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
   const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
@@ -111,7 +111,7 @@ export const BookCreator = () => {
           overflowY: 'scroll',
         }}
       >
-        <AreaList areas={areas} onClick={(area) => setModalArea(area)} />
+        <AreaList areas={areas} onClick={(area) => setModalAreaId(area.id)} />
       </div>
 
       {/* <Card style={{ position: 'absolute', top: 10, right: 10 }}>
@@ -134,8 +134,11 @@ export const BookCreator = () => {
           </div>
         </Flex>
       </Card> */}
-      {modalArea && (
-        <AreaDetail area={modalArea} onClose={() => setModalArea(null)} />
+      {modalAreaId && (
+        <AreaDetailModal
+          areaId={modalAreaId}
+          onClose={() => setModalAreaId(null)}
+        />
       )}
       <canvas
         ref={canvasRef}
