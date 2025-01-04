@@ -1,0 +1,1 @@
+export { AreaDetail } from './AreaDetail';

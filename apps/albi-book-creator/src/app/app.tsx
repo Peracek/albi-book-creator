@@ -1,4 +1,4 @@
-import { db } from '@abc/storage';
+import { db, ImageObject } from '@abc/storage';
 import { Button, Card, Flex, Space } from 'antd';
 import { changeDpiDataUrl } from 'changedpi';
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -14,10 +14,13 @@ import { appBnlCreate, OidsSpec } from '@abc/bnl-creator';
 import { saveAs } from 'file-saver';
 import { fromPairs } from 'lodash';
 import { generateOids } from '@abc/oid-generator';
+import { AreaDetail } from './AreaDetail';
+import { AreaList } from './AreaList';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [focusedArea, setFocusedArea] = useState<string | null>(null);
+  const [modalArea, setModalArea] = useState<ImageObject | null>(null);
 
   const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
   const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
@@ -101,8 +104,8 @@ export const BookCreator = () => {
       <Drawboard imageObjects={areas} img={img.image} />
       <Card style={{ position: 'absolute', top: 10, right: 10 }}>
         <Flex vertical justify="stretch" gap="middle">
-          <Flex gap="middle">
-            <ImageObjectTable data={areas} />
+          <Flex gap="middle" onClick={() => setModalArea(areas[0])}>
+            <AreaList areas={areas} onClick={(area) => setModalArea(area)} />
           </Flex>
           <div>
             <Space direction="vertical" size="middle">
@@ -119,6 +122,9 @@ export const BookCreator = () => {
           </div>
         </Flex>
       </Card>
+      {modalArea && (
+        <AreaDetail area={modalArea} onClose={() => setModalArea(null)} />
+      )}
       <canvas
         ref={canvasRef}
         id="myCanvas"

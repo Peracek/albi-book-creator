@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './app/app';
 import { App as AntApp } from 'antd';
+import { SelectedAreaProvider } from './app/SelectedAreaContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <AntApp>
-      <App />
+      <SelectedAreaProvider>
+        <App />
+      </SelectedAreaProvider>
     </AntApp>
   </StrictMode>
 );
