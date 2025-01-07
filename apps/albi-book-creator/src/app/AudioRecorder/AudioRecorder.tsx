@@ -1,13 +1,13 @@
+import { AudioOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { Mp3MediaRecorder } from 'mp3-mediarecorder';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import mp3RecorderWorker from './worker?worker';
-import { db, ImageObject } from '@abc/storage';
 
-export const AudioRecorder = ({
-  imageObject,
-}: {
-  imageObject: ImageObject;
-}) => {
+type Props = {
+  onRecorded: (sound: File) => void;
+};
+export const AudioRecorder = ({ onRecorded }: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const recorderRef = useRef(null);
   const worker = useRef(mp3RecorderWorker());
@@ -23,13 +23,13 @@ export const AudioRecorder = ({
         recorderRef.current = recorder;
         recorder.ondataavailable = (event) => {
           const mp3Blob = event.data;
-          const fileName = `${imageObject.name}.mp3`;
+          const fileName = `${'test'}.mp3`;
           const file = new File([mp3Blob], fileName, {
             type: mp3Blob.type,
             lastModified: Date.now(),
           });
 
-          db.imageObjects.update(imageObject.id, { sound: file });
+          onRecorded(file);
         };
         recorder.onstart = () => {
           console.log('onstart');
@@ -49,10 +49,18 @@ export const AudioRecorder = ({
   };
 
   return (
-    <div>
-      <button onClick={isRecording ? hadnleStop : handleStart}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
-    </div>
+    <Button
+      icon={<AudioOutlined />}
+      onClick={(e) => {
+        e.stopPropagation();
+        isRecording ? hadnleStop() : handleStart();
+      }}
+    >
+      {isRecording ? 'Stop Recording' : 'Start Recording'}
+    </Button>
   );
 };
+
+/**
+ * FIXME: use https://www.npmjs.com/package/react-countdown-circle-timer
+ */

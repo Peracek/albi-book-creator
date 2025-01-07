@@ -1,0 +1,1 @@
+export { AreaDetailModal } from './AreaDetailModal';
