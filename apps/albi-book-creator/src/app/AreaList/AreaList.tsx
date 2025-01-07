@@ -9,7 +9,6 @@ export const AreaList = ({ areas, onClick }: Props) => {
   return (
     <List
       size="small"
-      header={<div>Areas</div>}
       bordered
       dataSource={areas}
       renderItem={(area) => (
