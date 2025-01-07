@@ -102,7 +102,8 @@ export const BookCreator = () => {
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
       <Drawboard imageObjects={areas} img={img.image} />
-      <div
+      <Card
+        bordered
         style={{
           position: 'absolute',
           top: 10,
@@ -111,29 +112,19 @@ export const BookCreator = () => {
           overflowY: 'scroll',
         }}
       >
+        <Space direction="vertical" size="middle">
+          <Space>
+            <Button onClick={download} icon={<DownloadOutlined />}>
+              OIDs PNG
+            </Button>
+            <Button onClick={downloadBnl} icon={<DownloadOutlined />}>
+              BNL
+            </Button>
+          </Space>
+          <BackupAndRestore />
+        </Space>
         <AreaList areas={areas} onClick={(area) => setModalAreaId(area.id)} />
-      </div>
-
-      {/* <Card style={{ position: 'absolute', top: 10, right: 10 }}>
-        <Flex vertical justify="stretch" gap="middle">
-          <Flex gap="middle" onClick={() => setModalArea(areas[0])}>
-            <AreaList areas={areas} onClick={(area) => setModalArea(area)} />
-          </Flex>
-          <div>
-            <Space direction="vertical" size="middle">
-              <Space>
-                <Button onClick={download} icon={<DownloadOutlined />}>
-                  OIDs PNG
-                </Button>
-                <Button onClick={downloadBnl} icon={<DownloadOutlined />}>
-                  BNL
-                </Button>
-              </Space>
-              <BackupAndRestore />
-            </Space>
-          </div>
-        </Flex>
-      </Card> */}
+      </Card>
       {modalAreaId && (
         <AreaDetailModal
           areaId={modalAreaId}

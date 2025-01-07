@@ -1,5 +1,9 @@
 import { db } from '@abc/storage';
-import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import { App, Button, Space, Upload } from 'antd';
 import { exportDB, importInto } from 'dexie-export-import';
 import { saveAs } from 'file-saver';
@@ -37,6 +41,7 @@ export const BackupAndRestore = () => {
       </Upload>
       <Button
         danger
+        icon={<DeleteOutlined />}
         onClick={() =>
           modal.confirm({
             title: 'Clear DB',
@@ -47,9 +52,7 @@ export const BackupAndRestore = () => {
             },
           })
         }
-      >
-        Clear
-      </Button>
+      ></Button>
     </Space>
   );
 };
