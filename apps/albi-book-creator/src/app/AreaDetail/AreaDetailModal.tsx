@@ -16,10 +16,11 @@ export const AreaDetailModal = ({ areaId, onClose }: Props) => {
   if (!area) return null;
 
   const onFinish: FormProps<ImageObject>['onFinish'] = (values) => {
+    // debugger;
     db.imageObjects.update(areaId, {
       name: values.name,
       oid: values.oid,
-      sound: recording ?? values.sound,
+      sound: recording ?? values.sound.file,
     });
   };
 
