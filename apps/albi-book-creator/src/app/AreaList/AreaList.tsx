@@ -1,7 +1,8 @@
 import { ImageObject } from '@abc/storage';
-import { List } from 'antd';
+import { Flex, List } from 'antd';
 import { useSelectedArea } from '../SelectedAreaContext';
 import { on } from 'events';
+import { SoundOutlined } from '@ant-design/icons';
 
 type Props = {
   areas: ImageObject[];
@@ -20,7 +21,10 @@ export const AreaList = ({ areas, onClick }: Props) => {
           onMouseOver={() => setSelectedArea(area.id)}
           onMouseOut={() => setSelectedArea(null)}
         >
-          {area.name}
+          <Flex justify="space-between" style={{ width: '100%' }}>
+            <span>{area.name}</span>
+            {area.sound && <SoundOutlined />}
+          </Flex>
         </List.Item>
       )}
       style={{ backgroundColor: 'white' }}
