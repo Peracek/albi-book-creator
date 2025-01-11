@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const Strokes = ({ initialScale, areas }: Props) => {
-  const { selectedArea } = useSelectedArea();
+  const { selectedArea, setSelectedArea } = useSelectedArea();
 
   return (
     <svg
@@ -20,7 +20,7 @@ export const Strokes = ({ initialScale, areas }: Props) => {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none',
+        // pointerEvents: 'none',
         touchAction: 'none',
         aspectRatio: 297 / 210,
       }}
@@ -32,6 +32,8 @@ export const Strokes = ({ initialScale, areas }: Props) => {
         const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
         return (
           <path
+            onMouseEnter={() => setSelectedArea(area.id)}
+            onMouseLeave={() => setSelectedArea(null)}
             key={area.id}
             d={pathData}
             id={area.name}
