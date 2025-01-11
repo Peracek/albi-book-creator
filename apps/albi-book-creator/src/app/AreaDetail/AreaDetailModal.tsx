@@ -39,8 +39,8 @@ export const AreaDetailModal = ({ areaId, onClose }: Props) => {
       onOk={onClose}
       onCancel={onClose}
       footer={[
-        <Button form="areaDetail" key={'areaDetailSubmit'} onClick={onClose}>
-          Discard
+        <Button form="areaDetail" key={'areaDetailClose'} onClick={onClose}>
+          Close
         </Button>,
         <Button
           type="primary"

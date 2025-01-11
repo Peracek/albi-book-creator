@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface SelectedAreaContextType {
-  selectedArea: string | null;
-  setSelectedArea: (area: string | null) => void;
+  selectedArea: number | null;
+  setSelectedArea: (area: number | null) => void;
 }
 
 const SelectedAreaContext = createContext<SelectedAreaContextType | undefined>(
@@ -12,7 +12,7 @@ const SelectedAreaContext = createContext<SelectedAreaContextType | undefined>(
 export const SelectedAreaProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+  const [selectedArea, setSelectedArea] = useState<number | null>(null);
 
   return (
     <SelectedAreaContext.Provider value={{ selectedArea, setSelectedArea }}>

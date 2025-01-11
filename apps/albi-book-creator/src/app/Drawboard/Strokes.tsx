@@ -1,6 +1,7 @@
 import { type Point, scale } from '@abc/shared';
 import { ImageObject } from '@abc/storage';
 import { getSvgPathFromStroke } from './getSvgPathFromStroke';
+import { useSelectedArea } from '../SelectedAreaContext';
 
 type Props = {
   areas: ImageObject[];
@@ -8,6 +9,8 @@ type Props = {
 };
 
 export const Strokes = ({ initialScale, areas }: Props) => {
+  const { selectedArea } = useSelectedArea();
+
   return (
     <svg
       id="strokes"
@@ -23,6 +26,7 @@ export const Strokes = ({ initialScale, areas }: Props) => {
       }}
     >
       {areas.map((area) => {
+        const isFocused = selectedArea === area.id;
         const factor = initialScale;
         const scaledDownPoints = area.stroke.map(scale(factor));
         const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
@@ -32,8 +36,8 @@ export const Strokes = ({ initialScale, areas }: Props) => {
             d={pathData}
             id={area.name}
             style={{
-              fill: 'rgba(0, 0, 0, 0.1)',
-              // fill: isFocused ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+              fill: isFocused ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+              stroke: isFocused ? 'black' : 'rgba(0, 0, 0, 0.1)',
             }}
           />
         );
