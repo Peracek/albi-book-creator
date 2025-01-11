@@ -2,7 +2,7 @@ import { db, ImageObject } from '@abc/storage';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Modal, Upload } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AudioRecorder } from '../AudioRecorder';
 
 type Props = {
@@ -12,14 +12,21 @@ type Props = {
 
 export const AreaDetailModal = ({ areaId, onClose }: Props) => {
   const area = useLiveQuery(() => db.imageObjects.get(areaId));
-  const [recording, setRecording] = useState<File | null>(null);
+  const [recording, setRecording] = useState<File | undefined>();
+
+  useEffect(() => {
+    if (area) {
+      setRecording(area.sound);
+    }
+  }, [area]);
+
   if (!area) return null;
 
   const onFinish: FormProps<ImageObject>['onFinish'] = (values) => {
     db.imageObjects.update(areaId, {
       name: values.name,
       oid: values.oid,
-      sound: recording ?? values.sound.file,
+      sound: recording,
     });
     onClose();
   };
@@ -64,23 +71,9 @@ export const AreaDetailModal = ({ areaId, onClose }: Props) => {
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
         </Form.Item>
-        <div>
-          recording
-          {recording && (
-            <audio controls src={URL.createObjectURL(recording)}></audio>
-          )}
-        </div>
-        <div>
-          original sound
-          {area.sound && (
-            <audio controls>
-              <source
-                src={URL.createObjectURL(area.sound)}
-                type="audio/mp3"
-              ></source>
-            </audio>
-          )}
-        </div>
+        {recording && (
+          <audio controls src={URL.createObjectURL(recording)}></audio>
+        )}
       </Form>
     </Modal>
   );
