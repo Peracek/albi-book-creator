@@ -24,6 +24,13 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
   const a4Ref = useRef<A4Ref>(null);
   const zoomPanRef = useRef<ReactZoomPanPinchRef>(null);
   const [drawing, setDrawing] = useState(false);
+  const [initialScale, setInitialScale] = useState<number>();
+
+  useEffect(() => {
+    if (a4Ref.current) {
+      setInitialScale(a4Ref.current.initialScale);
+    }
+  }, [a4Ref.current]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -71,7 +78,9 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
                 }}
                 src={URL.createObjectURL(img)}
               />
-              <Strokes a4Ref={a4Ref} areas={imageObjects} />
+              {initialScale && (
+                <Strokes initialScale={initialScale} areas={imageObjects} />
+              )}
             </A4>
           </TransformComponent>
           <Controls

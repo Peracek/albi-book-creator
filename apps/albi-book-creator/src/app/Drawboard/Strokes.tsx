@@ -1,15 +1,13 @@
-import { ImageObject } from '@abc/storage';
-import { RefObject } from 'react';
-import { A4Ref } from './A4';
-import { getSvgPathFromStroke } from './getSvgPathFromStroke';
 import { type Point, scale } from '@abc/shared';
+import { ImageObject } from '@abc/storage';
+import { getSvgPathFromStroke } from './getSvgPathFromStroke';
 
 type Props = {
   areas: ImageObject[];
-  a4Ref: RefObject<A4Ref>;
+  initialScale: number;
 };
 
-export const Strokes = ({ a4Ref, areas }: Props) => {
+export const Strokes = ({ initialScale, areas }: Props) => {
   return (
     <svg
       id="strokes"
@@ -25,7 +23,7 @@ export const Strokes = ({ a4Ref, areas }: Props) => {
       }}
     >
       {areas.map((area) => {
-        const factor = a4Ref.current?.initialScale ?? 1;
+        const factor = initialScale;
         const scaledDownPoints = area.stroke.map(scale(factor));
         const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
         return (
