@@ -10,8 +10,6 @@ import { a4AspectRatio, a4Points } from '../constants';
 
 export interface A4Ref {
   initialScale: number;
-  // FIXME: remove, not used
-  currentScale: number;
 }
 
 export const A4 = forwardRef<
@@ -37,10 +35,6 @@ export const A4 = forwardRef<
   useImperativeHandle(ref, () => ({
     get initialScale() {
       return intialScale!;
-    },
-    get currentScale() {
-      const bb = divRef.current!.getBoundingClientRect();
-      return bb.width / a4Points.h;
     },
   }));
 
