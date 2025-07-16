@@ -63,22 +63,6 @@ export const BookCreator = () => {
       {/* Main content area with Drawboard */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
         <Drawboard imageObjects={areas} img={img.image} />
-        
-        {/* Keep the existing Card for any additional controls if needed */}
-        <Card
-          size="small"
-          bordered
-          style={{
-            position: 'absolute',
-            top: 10,
-            right: 10,
-            maxWidth: '200px',
-          }}
-        >
-          <Flex vertical gap="small">
-            <Button size="small">Quick Actions</Button>
-          </Flex>
-        </Card>
       </div>
 
       {modalAreaId && (
