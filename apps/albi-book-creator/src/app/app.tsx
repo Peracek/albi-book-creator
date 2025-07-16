@@ -1,5 +1,4 @@
 import { db } from '@abc/storage';
-import { Button, Card, Flex } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
 import './app.module.css';
@@ -8,13 +7,13 @@ import { Drawboard } from './Drawboard';
 import { Welcome } from './Welcome';
 
 import { AreaDetailModal } from './AreaDetail';
-import { AreaList } from './AreaList';
-import { ControlPanelModal } from './ControlPanelModal';
+import { ExportModal } from './ExportModal';
+import { Sidebar } from './Sidebar';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [controlPanelOpen, setControlPanelOpen] = useState(false);
   const [modalAreaId, setModalAreaId] = useState<number | null>(null);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
 
   const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
   const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
@@ -28,53 +27,29 @@ export const BookCreator = () => {
   }
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Drawboard imageObjects={areas} img={img.image} />
-      <Card
-        size="small"
-        bordered
-        style={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-        }}
-      >
-        <Flex
-          vertical
-          gap="middle"
-          style={{
-            maxHeight: '60vh',
-          }}
-        >
-          <Button
-            type="primary"
-            style={{ flexShrink: 0 }}
-            onClick={() => setControlPanelOpen(true)}
-          >
-            Open control panel
-          </Button>
-          <div
-            style={{
-              overflowY: 'scroll',
-            }}
-          >
-            <AreaList
-              areas={areas}
-              onClick={(area) => setModalAreaId(area.id)}
-            />
-          </div>
-        </Flex>
-      </Card>
+    <div style={{ height: '100vh', width: '100vw', display: 'flex', overflow: 'hidden' }}>
+      {/* Sidebar */}
+      <Sidebar
+        areas={areas}
+        onExportClick={() => setExportModalOpen(true)}
+        onAreaClick={(area) => setModalAreaId(area.id)}
+      />
+
+      {/* Main content area with Drawboard */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <Drawboard imageObjects={areas} img={img.image} />
+      </div>
+
       {modalAreaId && (
         <AreaDetailModal
           areaId={modalAreaId}
           onClose={() => setModalAreaId(null)}
         />
       )}
-      {controlPanelOpen && (
-        <ControlPanelModal
-          onClose={() => setControlPanelOpen(false)}
+      {exportModalOpen && (
+        <ExportModal
           areas={areas}
+          onClose={() => setExportModalOpen(false)}
         />
       )}
       <canvas
