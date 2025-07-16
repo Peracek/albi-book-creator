@@ -1,5 +1,6 @@
 import { db } from '@abc/storage';
-import { Button, Card, Flex } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Button, Card, Flex, Divider } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
 import './app.module.css';
@@ -9,12 +10,15 @@ import { Welcome } from './Welcome';
 
 import { AreaDetailModal } from './AreaDetail';
 import { AreaList } from './AreaList';
-import { ControlPanelModal } from './ControlPanelModal';
+import { downloadBnl } from './downloadBnl';
+import { downloadOids } from './downloadOids';
+import { BackupAndRestore } from './BackupAndRestore';
+import { ExportModal } from './ExportModal';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [controlPanelOpen, setControlPanelOpen] = useState(false);
   const [modalAreaId, setModalAreaId] = useState<number | null>(null);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
 
   const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
   const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
@@ -41,15 +45,32 @@ export const BookCreator = () => {
           overscrollBehavior: 'contain',
         }}
       >
-        <h3 style={{ margin: '0 0 16px 0' }}>Tools & Areas</h3>
+        <h3 style={{ margin: '0 0 16px 0' }}>Tools & Controls</h3>
         <Flex vertical gap="middle">
-          <Button
-            type="primary"
-            onClick={() => setControlPanelOpen(true)}
-            block
-          >
-            Open control panel
-          </Button>
+          {/* Export Section */}
+          <div>
+            <h4 style={{ margin: '0 0 8px 0' }}>Export</h4>
+            <Button
+              onClick={() => setExportModalOpen(true)}
+              icon={<DownloadOutlined />}
+              block
+              type="primary"
+            >
+              Export
+            </Button>
+          </div>
+
+          <Divider style={{ margin: '8px 0' }} />
+
+          {/* Backup & Restore Section */}
+          <div>
+            <h4 style={{ margin: '0 0 8px 0' }}>Data Management</h4>
+            <BackupAndRestore />
+          </div>
+
+          <Divider style={{ margin: '8px 0' }} />
+
+          {/* Areas Section */}
           <div>
             <h4 style={{ margin: '0 0 8px 0' }}>Areas</h4>
             <AreaList
@@ -71,10 +92,10 @@ export const BookCreator = () => {
           onClose={() => setModalAreaId(null)}
         />
       )}
-      {controlPanelOpen && (
-        <ControlPanelModal
-          onClose={() => setControlPanelOpen(false)}
+      {exportModalOpen && (
+        <ExportModal
           areas={areas}
+          onClose={() => setExportModalOpen(false)}
         />
       )}
       <canvas
