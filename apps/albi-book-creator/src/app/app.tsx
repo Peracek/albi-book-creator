@@ -1,6 +1,4 @@
 import { db } from '@abc/storage';
-import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Card, Flex, Divider } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
 import './app.module.css';
@@ -9,11 +7,8 @@ import { Drawboard } from './Drawboard';
 import { Welcome } from './Welcome';
 
 import { AreaDetailModal } from './AreaDetail';
-import { AreaList } from './AreaList';
-import { downloadBnl } from './downloadBnl';
-import { downloadOids } from './downloadOids';
-import { BackupAndRestore } from './BackupAndRestore';
 import { ExportModal } from './ExportModal';
+import { Sidebar } from './Sidebar';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,52 +29,11 @@ export const BookCreator = () => {
   return (
     <div style={{ height: '100vh', width: '100vw', display: 'flex', overflow: 'hidden' }}>
       {/* Sidebar */}
-      <div
-        style={{
-          width: '300px',
-          height: '100%',
-          backgroundColor: '#f5f5f5',
-          borderRight: '1px solid #d9d9d9',
-          padding: '16px',
-          overflowY: 'auto',
-          overscrollBehavior: 'contain',
-        }}
-      >
-        <h3 style={{ margin: '0 0 16px 0' }}>Tools & Controls</h3>
-        <Flex vertical gap="middle">
-          {/* Export Section */}
-          <div>
-            <h4 style={{ margin: '0 0 8px 0' }}>Export</h4>
-            <Button
-              onClick={() => setExportModalOpen(true)}
-              icon={<DownloadOutlined />}
-              block
-              type="primary"
-            >
-              Export
-            </Button>
-          </div>
-
-          <Divider style={{ margin: '8px 0' }} />
-
-          {/* Backup & Restore Section */}
-          <div>
-            <h4 style={{ margin: '0 0 8px 0' }}>Data Management</h4>
-            <BackupAndRestore />
-          </div>
-
-          <Divider style={{ margin: '8px 0' }} />
-
-          {/* Areas Section */}
-          <div>
-            <h4 style={{ margin: '0 0 8px 0' }}>Areas</h4>
-            <AreaList
-              areas={areas}
-              onClick={(area) => setModalAreaId(area.id)}
-            />
-          </div>
-        </Flex>
-      </div>
+      <Sidebar
+        areas={areas}
+        onExportClick={() => setExportModalOpen(true)}
+        onAreaClick={(area) => setModalAreaId(area.id)}
+      />
 
       {/* Main content area with Drawboard */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
