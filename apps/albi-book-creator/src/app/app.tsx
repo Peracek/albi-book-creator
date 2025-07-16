@@ -28,43 +28,59 @@ export const BookCreator = () => {
   }
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Drawboard imageObjects={areas} img={img.image} />
-      <Card
-        size="small"
-        bordered
+    <div style={{ height: '100vh', width: '100vw', display: 'flex', overflow: 'hidden' }}>
+      {/* Sidebar */}
+      <div
         style={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
+          width: '300px',
+          height: '100%',
+          backgroundColor: '#f5f5f5',
+          borderRight: '1px solid #d9d9d9',
+          padding: '16px',
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
         }}
       >
-        <Flex
-          vertical
-          gap="middle"
-          style={{
-            maxHeight: '60vh',
-          }}
-        >
+        <h3 style={{ margin: '0 0 16px 0' }}>Tools & Areas</h3>
+        <Flex vertical gap="middle">
           <Button
             type="primary"
-            style={{ flexShrink: 0 }}
             onClick={() => setControlPanelOpen(true)}
+            block
           >
             Open control panel
           </Button>
-          <div
-            style={{
-              overflowY: 'scroll',
-            }}
-          >
+          <div>
+            <h4 style={{ margin: '0 0 8px 0' }}>Areas</h4>
             <AreaList
               areas={areas}
               onClick={(area) => setModalAreaId(area.id)}
             />
           </div>
         </Flex>
-      </Card>
+      </div>
+
+      {/* Main content area with Drawboard */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <Drawboard imageObjects={areas} img={img.image} />
+        
+        {/* Keep the existing Card for any additional controls if needed */}
+        <Card
+          size="small"
+          bordered
+          style={{
+            position: 'absolute',
+            top: 10,
+            right: 10,
+            maxWidth: '200px',
+          }}
+        >
+          <Flex vertical gap="small">
+            <Button size="small">Quick Actions</Button>
+          </Flex>
+        </Card>
+      </div>
+
       {modalAreaId && (
         <AreaDetailModal
           areaId={modalAreaId}
