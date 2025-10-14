@@ -1,7 +1,6 @@
 import { ImageObject } from '@abc/storage';
 import { Flex, List } from 'antd';
 import { useSelectedArea } from '../SelectedAreaContext';
-import { on } from 'events';
 import { SoundOutlined } from '@ant-design/icons';
 
 type Props = {

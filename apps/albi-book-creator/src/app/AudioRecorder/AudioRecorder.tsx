@@ -44,7 +44,7 @@ export const AudioRecorder = ({ onRecorded }: Props) => {
       });
   };
 
-  const hadnleStop = () => {
+  const handleStop = () => {
     recorderRef.current.stop();
   };
 
@@ -53,7 +53,7 @@ export const AudioRecorder = ({ onRecorded }: Props) => {
       icon={<AudioOutlined />}
       onClick={(e) => {
         e.stopPropagation();
-        isRecording ? hadnleStop() : handleStart();
+        isRecording ? handleStop() : handleStart();
       }}
     >
       {isRecording ? 'Stop Recording' : 'Start Recording'}
