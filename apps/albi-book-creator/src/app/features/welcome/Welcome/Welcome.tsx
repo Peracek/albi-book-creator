@@ -1,4 +1,4 @@
-import { A4 } from '../Drawboard';
+import { A4 } from '../../drawboard';
 import { Dropzone } from './Dropzone';
 
 export const Welcome = () => {

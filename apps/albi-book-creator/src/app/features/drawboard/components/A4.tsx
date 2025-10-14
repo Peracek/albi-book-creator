@@ -5,8 +5,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useViewportSize } from '../useViewportSize';
-import { a4AspectRatio, a4Points } from '../constants';
+import { useViewportSize } from '../../../utils/useViewportSize';
+import { a4AspectRatio, a4Points } from '../../../constants';
 
 export interface A4Ref {
   initialScale: number;

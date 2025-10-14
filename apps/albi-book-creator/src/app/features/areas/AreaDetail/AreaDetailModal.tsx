@@ -2,8 +2,8 @@ import { db, ImageObject } from '@abc/storage';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Modal, Upload } from 'antd';
 import { useEffect, useState } from 'react';
-import { AudioRecorder } from '../AudioRecorder';
-import { useArea, useObjectUrl } from '../hooks';
+import { AudioRecorder } from '../../../components/AudioRecorder';
+import { useArea, useObjectUrl } from '../../../hooks';
 
 type Props = {
   areaId: number;

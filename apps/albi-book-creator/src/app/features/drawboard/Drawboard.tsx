@@ -5,12 +5,12 @@ import {
   TransformComponent,
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
-import { useKeyboardShortcut, useObjectUrl } from '../hooks';
-import { A4, A4Ref } from './A4';
-import { Controls } from './Controls';
-import { Freehand } from './Freehand';
-import showNameModal from './showNameModal';
-import { Strokes } from './Strokes';
+import { useKeyboardShortcut, useObjectUrl } from '../../hooks';
+import { A4, A4Ref } from './components/A4';
+import { Controls } from './components/Controls';
+import { Freehand } from './components/Freehand';
+import showNameModal from './utils/showNameModal';
+import { Strokes } from './components/Strokes';
 
 type Props = {
   imageObjects: ImageObject[];

@@ -1,8 +1,8 @@
 import { ImageObject } from '@abc/storage';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space } from 'antd';
-import { downloadBnl } from './downloadBnl';
-import { downloadOids } from './downloadOids';
+import { downloadBnl } from '../../utils/downloadBnl';
+import { downloadOids } from '../../utils/downloadOids';
 
 type Props = {
   onClose: () => void;

@@ -1,8 +1,8 @@
 import { ImageObject } from '@abc/storage';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Button, Flex, Divider } from 'antd';
-import { AreaList } from '../AreaList';
-import { BackupAndRestore } from '../BackupAndRestore';
+import { AreaList } from '../../features/areas/AreaList';
+import { BackupAndRestore } from '../../features/export/BackupAndRestore';
 
 type Props = {
   areas: ImageObject[];

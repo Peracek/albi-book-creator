@@ -4,7 +4,7 @@ import { type ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 import { ImageObject } from '@abc/storage';
 import { type Point, scale } from '@abc/shared';
 import { A4Ref } from './A4';
-import { getSvgPathFromStroke } from './getSvgPathFromStroke';
+import { getSvgPathFromStroke } from '../utils/getSvgPathFromStroke';
 
 const options = {
   size: 5,

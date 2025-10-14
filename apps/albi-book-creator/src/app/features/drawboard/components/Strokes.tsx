@@ -1,7 +1,7 @@
 import { type Point, scale } from '@abc/shared';
 import { ImageObject } from '@abc/storage';
-import { getSvgPathFromStroke } from './getSvgPathFromStroke';
-import { useSelectedArea } from '../SelectedAreaContext';
+import { getSvgPathFromStroke } from '../utils/getSvgPathFromStroke';
+import { useSelectedArea } from '../../areas/SelectedAreaContext';
 
 type Props = {
   areas: ImageObject[];

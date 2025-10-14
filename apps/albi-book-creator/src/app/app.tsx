@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 import './app.module.css';
 import { a4Points } from './constants';
-import { Drawboard } from './Drawboard';
-import { Welcome } from './Welcome';
+import { Drawboard } from './features/drawboard';
+import { Welcome } from './features/welcome/Welcome';
 
-import { AreaDetailModal } from './AreaDetail';
-import { ExportModal } from './ExportModal';
-import { Sidebar } from './Sidebar';
+import { AreaDetailModal } from './features/areas/AreaDetail';
+import { ExportModal } from './features/export/ExportModal';
+import { Sidebar } from './components/Sidebar';
 import { useAreas, usePageImage } from './hooks';
 
 export const BookCreator = () => {
