@@ -1,5 +1,3 @@
-import { db } from '@abc/storage';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
 import './app.module.css';
 import { a4Points } from './constants';
@@ -9,14 +7,15 @@ import { Welcome } from './Welcome';
 import { AreaDetailModal } from './AreaDetail';
 import { ExportModal } from './ExportModal';
 import { Sidebar } from './Sidebar';
+import { useAreas, usePageImage } from './hooks';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [modalAreaId, setModalAreaId] = useState<number | null>(null);
   const [exportModalOpen, setExportModalOpen] = useState(false);
 
-  const [img] = useLiveQuery(() => db.pageImage.toArray()) ?? [];
-  const areas = useLiveQuery(() => db.imageObjects.toArray()) ?? [];
+  const img = usePageImage();
+  const areas = useAreas();
 
   if (!img) {
     return (

@@ -1,10 +1,9 @@
 import { db, ImageObject } from '@abc/storage';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Modal, Upload } from 'antd';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { AudioRecorder } from '../AudioRecorder';
-import { useObjectUrl } from '../hooks';
+import { useArea, useObjectUrl } from '../hooks';
 
 type Props = {
   areaId: number;
@@ -12,7 +11,7 @@ type Props = {
 };
 
 export const AreaDetailModal = ({ areaId, onClose }: Props) => {
-  const area = useLiveQuery(() => db.imageObjects.get(areaId));
+  const area = useArea(areaId);
   const [recording, setRecording] = useState<File | undefined>();
   const recordingUrl = useObjectUrl(recording);
 

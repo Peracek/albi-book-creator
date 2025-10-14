@@ -1,15 +1,11 @@
 import { db, getNextOid, ImageObject } from '@abc/storage';
-import { UploadOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { Button, Upload } from 'antd';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useRef, useState } from 'react';
 import {
   ReactZoomPanPinchRef,
   TransformComponent,
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
-import { useObjectUrl } from '../hooks';
+import { useKeyboardShortcut, useObjectUrl } from '../hooks';
 import { A4, A4Ref } from './A4';
 import { Controls } from './Controls';
 import { Freehand } from './Freehand';
@@ -34,18 +30,7 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
     }
   }, [a4Ref.current]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'I' || e.key === 'i') {
-        setDrawing((isOn) => !isOn);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  useKeyboardShortcut('i', () => setDrawing((isOn) => !isOn));
 
   return (
     <div
