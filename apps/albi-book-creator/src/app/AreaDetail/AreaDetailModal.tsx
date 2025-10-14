@@ -4,6 +4,7 @@ import { Button, Form, FormProps, Input, Modal, Upload } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { AudioRecorder } from '../AudioRecorder';
+import { useObjectUrl } from '../hooks';
 
 type Props = {
   areaId: number;
@@ -13,6 +14,7 @@ type Props = {
 export const AreaDetailModal = ({ areaId, onClose }: Props) => {
   const area = useLiveQuery(() => db.imageObjects.get(areaId));
   const [recording, setRecording] = useState<File | undefined>();
+  const recordingUrl = useObjectUrl(recording);
 
   useEffect(() => {
     if (area) {
@@ -71,8 +73,8 @@ export const AreaDetailModal = ({ areaId, onClose }: Props) => {
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
         </Form.Item>
-        {recording && (
-          <audio controls src={URL.createObjectURL(recording)}></audio>
+        {recording && recordingUrl && (
+          <audio controls src={recordingUrl}></audio>
         )}
       </Form>
     </Modal>

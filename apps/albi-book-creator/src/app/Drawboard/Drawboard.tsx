@@ -9,6 +9,7 @@ import {
   TransformComponent,
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
+import { useObjectUrl } from '../hooks';
 import { A4, A4Ref } from './A4';
 import { Controls } from './Controls';
 import { Freehand } from './Freehand';
@@ -25,6 +26,7 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
   const zoomPanRef = useRef<ReactZoomPanPinchRef>(null);
   const [drawing, setDrawing] = useState(false);
   const [initialScale, setInitialScale] = useState<number>();
+  const imageUrl = useObjectUrl(img);
 
   useEffect(() => {
     if (a4Ref.current) {
@@ -76,7 +78,8 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
                   height: '100%',
                   objectFit: 'contain',
                 }}
-                src={URL.createObjectURL(img)}
+                src={imageUrl}
+                alt="Book page"
               />
               {initialScale && (
                 <Strokes initialScale={initialScale} areas={imageObjects} />
