@@ -4,14 +4,12 @@ import { a4Points } from './constants';
 import { Drawboard } from './features/drawboard';
 import { Welcome } from './features/welcome/Welcome';
 
-import { AreaDetailModal } from './features/areas/AreaDetail';
 import { ExportModal } from './features/export/ExportModal';
 import { Sidebar } from './components/Sidebar';
 import { useAreas, usePageImage } from './hooks';
 
 export const BookCreator = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [modalAreaId, setModalAreaId] = useState<number | null>(null);
   const [exportModalOpen, setExportModalOpen] = useState(false);
 
   const img = usePageImage();
@@ -31,7 +29,6 @@ export const BookCreator = () => {
       <Sidebar
         areas={areas}
         onExportClick={() => setExportModalOpen(true)}
-        onAreaClick={(area) => setModalAreaId(area.id)}
       />
 
       {/* Main content area with Drawboard */}
@@ -39,12 +36,6 @@ export const BookCreator = () => {
         <Drawboard imageObjects={areas} img={img.image} />
       </div>
 
-      {modalAreaId && (
-        <AreaDetailModal
-          areaId={modalAreaId}
-          onClose={() => setModalAreaId(null)}
-        />
-      )}
       {exportModalOpen && (
         <ExportModal
           areas={areas}
