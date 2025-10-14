@@ -1,10 +1,17 @@
 import { ImageObject } from '@abc/storage';
-import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Flex, Divider } from 'antd';
+import {
+  DownloadOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
+import { Button, Space, App } from 'antd';
 import { useState } from 'react';
 import { AreaList } from '../../features/areas/AreaList';
 import { AreaDetail } from '../../features/areas/AreaDetail';
-import { BackupAndRestore } from '../../features/export/BackupAndRestore';
+import { db } from '@abc/storage';
+import { exportDB, importInto } from 'dexie-export-import';
+import { saveAs } from 'file-saver';
 
 type Props = {
   areas: ImageObject[];
@@ -13,6 +20,7 @@ type Props = {
 
 export const Sidebar = ({ areas, onExportClick }: Props) => {
   const [selectedAreaId, setSelectedAreaId] = useState<number | null>(null);
+  const { modal } = App.useApp();
 
   const handleAreaClick = (area: ImageObject) => {
     setSelectedAreaId(area.id);
@@ -22,6 +30,43 @@ export const Sidebar = ({ areas, onExportClick }: Props) => {
     setSelectedAreaId(null);
   };
 
+  const handleBackup = async () => {
+    const blob = await exportDB(db);
+    saveAs(blob, `abc-${new Date().toISOString()}.json`);
+  };
+
+  const handleRestore = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        modal.confirm({
+          title: 'Restore DB',
+          content: 'Are you sure you want to restore the database?',
+          onOk: async () => {
+            await importInto(db, file, {
+              clearTablesBeforeImport: true,
+            });
+          },
+        });
+      }
+    };
+    input.click();
+  };
+
+  const handleClear = () => {
+    modal.confirm({
+      title: 'Clear DB',
+      content: 'Are you sure you want to clear the database?',
+      onOk: () => {
+        db.imageObjects.clear();
+        db.pageImage.clear();
+      },
+    });
+  };
+
   return (
     <div
       style={{
@@ -29,48 +74,71 @@ export const Sidebar = ({ areas, onExportClick }: Props) => {
         height: '100%',
         backgroundColor: '#f5f5f5',
         borderRight: '1px solid #d9d9d9',
-        padding: '16px',
-        overflowY: 'auto',
-        overscrollBehavior: 'contain',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {selectedAreaId ? (
         // Detail View
-        <AreaDetail areaId={selectedAreaId} onBack={handleBack} />
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+          <AreaDetail areaId={selectedAreaId} onBack={handleBack} />
+        </div>
       ) : (
         // List View
         <>
-          <h3 style={{ margin: '0 0 16px 0' }}>Tools & Controls</h3>
-          <Flex vertical gap="middle">
-            {/* Export Section */}
-            <div>
-              <h4 style={{ margin: '0 0 8px 0' }}>Export</h4>
+          <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+            <h3 style={{ margin: '0 0 16px 0' }}>Areas ({areas.length})</h3>
+            <AreaList areas={areas} onClick={handleAreaClick} />
+          </div>
+
+          {/* Bottom Toolbar */}
+          <div
+            style={{
+              borderTop: '1px solid #d9d9d9',
+              padding: '12px 16px',
+              backgroundColor: '#fff',
+            }}
+          >
+            <Space direction="vertical" style={{ width: '100%' }} size="small">
               <Button
-                onClick={onExportClick}
+                type="text"
                 icon={<DownloadOutlined />}
+                onClick={onExportClick}
                 block
-                type="primary"
+                style={{ textAlign: 'left' }}
               >
                 Export
               </Button>
-            </div>
-
-            <Divider style={{ margin: '8px 0' }} />
-
-            {/* Backup & Restore Section */}
-            <div>
-              <h4 style={{ margin: '0 0 8px 0' }}>Data Management</h4>
-              <BackupAndRestore />
-            </div>
-
-            <Divider style={{ margin: '8px 0' }} />
-
-            {/* Areas Section */}
-            <div>
-              <h4 style={{ margin: '0 0 8px 0' }}>Areas</h4>
-              <AreaList areas={areas} onClick={handleAreaClick} />
-            </div>
-          </Flex>
+              <Button
+                type="text"
+                icon={<SaveOutlined />}
+                onClick={handleBackup}
+                block
+                style={{ textAlign: 'left' }}
+              >
+                Backup
+              </Button>
+              <Button
+                type="text"
+                icon={<UploadOutlined />}
+                onClick={handleRestore}
+                block
+                style={{ textAlign: 'left' }}
+              >
+                Restore
+              </Button>
+              <Button
+                type="text"
+                icon={<DeleteOutlined />}
+                onClick={handleClear}
+                danger
+                block
+                style={{ textAlign: 'left' }}
+              >
+                Clear All
+              </Button>
+            </Space>
+          </div>
         </>
       )}
     </div>
