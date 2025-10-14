@@ -6,7 +6,7 @@ import {
   SaveOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Space, App, Flex, Empty } from 'antd';
+import { Button, Space, App } from 'antd';
 import { useState } from 'react';
 import { AreaList } from '../../features/areas/AreaList';
 import { AreaDetail } from '../../features/areas/AreaDetail';
@@ -90,30 +90,67 @@ export const Sidebar = ({ areas, onExportClick, onAddArea, drawing }: Props) => 
         // List View
         <>
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
-            <Flex justify="space-between" align="center" style={{ marginBottom: '16px' }}>
-              <h3 style={{ margin: 0 }}>Areas ({areas.length})</h3>
-              <Button
-                type={drawing ? 'default' : 'primary'}
-                shape="circle"
-                icon={<PlusOutlined />}
+            <h3 style={{ margin: 0, marginBottom: '16px' }}>Areas ({areas.length})</h3>
+
+            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+              {/* Add New Area Card */}
+              <div
                 onClick={onAddArea}
-                size="small"
-                title="Draw new area"
-              />
-            </Flex>
-            {areas.length === 0 ? (
-              <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={
-                  <span style={{ color: '#999' }}>
-                    No areas yet<br />
-                    Click <PlusOutlined /> to draw one
-                  </span>
-                }
-              />
-            ) : (
+                style={{
+                  display: 'flex',
+                  gap: '12px',
+                  padding: '12px',
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  border: drawing ? '2px dashed #1890ff' : '2px dashed #d9d9d9',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#1890ff';
+                  e.currentTarget.style.backgroundColor = '#f0f7ff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = drawing ? '#1890ff' : '#d9d9d9';
+                  e.currentTarget.style.backgroundColor = 'white';
+                }}
+              >
+                {/* Plus Icon */}
+                <div
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    backgroundColor: '#f0f0f0',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '32px',
+                    color: '#1890ff',
+                    flexShrink: 0,
+                  }}
+                >
+                  <PlusOutlined />
+                </div>
+
+                {/* Text */}
+                <div
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#1890ff',
+                  }}
+                >
+                  Add new area
+                </div>
+              </div>
+
+              {/* Existing Areas */}
               <AreaList areas={areas} onClick={handleAreaClick} />
-            )}
+            </Space>
           </div>
 
           {/* Bottom Toolbar */}
