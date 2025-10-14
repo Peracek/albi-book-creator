@@ -4,8 +4,9 @@ import {
   DeleteOutlined,
   UploadOutlined,
   SaveOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Space, App } from 'antd';
+import { Button, Space, App, Flex, Empty } from 'antd';
 import { useState } from 'react';
 import { AreaList } from '../../features/areas/AreaList';
 import { AreaDetail } from '../../features/areas/AreaDetail';
@@ -16,9 +17,11 @@ import { saveAs } from 'file-saver';
 type Props = {
   areas: ImageObject[];
   onExportClick: () => void;
+  onAddArea: () => void;
+  drawing: boolean;
 };
 
-export const Sidebar = ({ areas, onExportClick }: Props) => {
+export const Sidebar = ({ areas, onExportClick, onAddArea, drawing }: Props) => {
   const [selectedAreaId, setSelectedAreaId] = useState<number | null>(null);
   const { modal } = App.useApp();
 
@@ -87,8 +90,30 @@ export const Sidebar = ({ areas, onExportClick }: Props) => {
         // List View
         <>
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
-            <h3 style={{ margin: '0 0 16px 0' }}>Areas ({areas.length})</h3>
-            <AreaList areas={areas} onClick={handleAreaClick} />
+            <Flex justify="space-between" align="center" style={{ marginBottom: '16px' }}>
+              <h3 style={{ margin: 0 }}>Areas ({areas.length})</h3>
+              <Button
+                type={drawing ? 'default' : 'primary'}
+                shape="circle"
+                icon={<PlusOutlined />}
+                onClick={onAddArea}
+                size="small"
+                title="Draw new area"
+              />
+            </Flex>
+            {areas.length === 0 ? (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                  <span style={{ color: '#999' }}>
+                    No areas yet<br />
+                    Click <PlusOutlined /> to draw one
+                  </span>
+                }
+              />
+            ) : (
+              <AreaList areas={areas} onClick={handleAreaClick} />
+            )}
           </div>
 
           {/* Bottom Toolbar */}

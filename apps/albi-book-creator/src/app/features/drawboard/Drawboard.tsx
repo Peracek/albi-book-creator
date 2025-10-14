@@ -8,6 +8,7 @@ import {
 import { useKeyboardShortcut, useObjectUrl } from '../../hooks';
 import { A4, A4Ref } from './components/A4';
 import { Controls } from './components/Controls';
+import { DrawingModeAlert } from './components/DrawingModeAlert';
 import { Freehand } from './components/Freehand';
 import showNameModal from './utils/showNameModal';
 import { Strokes } from './components/Strokes';
@@ -15,12 +16,13 @@ import { Strokes } from './components/Strokes';
 type Props = {
   imageObjects: ImageObject[];
   img: Blob;
+  drawing: boolean;
+  setDrawing: (drawing: boolean) => void;
 };
 
-export const Drawboard = ({ imageObjects, img }: Props) => {
+export const Drawboard = ({ imageObjects, img, drawing, setDrawing }: Props) => {
   const a4Ref = useRef<A4Ref>(null);
   const zoomPanRef = useRef<ReactZoomPanPinchRef>(null);
-  const [drawing, setDrawing] = useState(false);
   const [initialScale, setInitialScale] = useState<number>();
   const imageUrl = useObjectUrl(img);
 
@@ -30,16 +32,20 @@ export const Drawboard = ({ imageObjects, img }: Props) => {
     }
   }, [a4Ref.current]);
 
-  useKeyboardShortcut('i', () => setDrawing((isOn) => !isOn));
+  useKeyboardShortcut('i', () => setDrawing(!drawing));
 
   return (
     <div
       style={{
         width: '100%',
         height: '100%',
-        background: 'rgb(240, 242, 245)',
+        background: drawing ? 'rgb(230, 240, 255)' : 'rgb(240, 242, 245)',
+        cursor: drawing ? 'crosshair' : 'default',
+        position: 'relative',
+        transition: 'background 0.2s ease',
       }}
     >
+      {drawing && <DrawingModeAlert onCancel={() => setDrawing(false)} />}
       <div style={{ width: '100%', height: '100%' }}>
         <TransformWrapper
           ref={zoomPanRef}
