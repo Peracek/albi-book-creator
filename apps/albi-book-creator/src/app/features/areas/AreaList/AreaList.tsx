@@ -2,13 +2,15 @@ import { db, ImageObject } from '@abc/storage';
 import { Button, Space, App } from 'antd';
 import { useSelectedArea } from '../SelectedAreaContext';
 import { EditOutlined, DeleteOutlined, SoundOutlined } from '@ant-design/icons';
+import { AreaPreview } from './AreaPreview';
 
 type Props = {
   areas: ImageObject[];
+  pageImage: Blob;
   onClick: (area: ImageObject) => void;
 };
 
-export const AreaList = ({ areas, onClick }: Props) => {
+export const AreaList = ({ areas, pageImage, onClick }: Props) => {
   const { setSelectedArea } = useSelectedArea();
   const { modal } = App.useApp();
 
@@ -56,22 +58,39 @@ export const AreaList = ({ areas, onClick }: Props) => {
             e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          {/* Preview Placeholder */}
+          {/* Preview */}
           <div
             style={{
               width: '64px',
               height: '64px',
               backgroundColor: '#f0f0f0',
               borderRadius: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '24px',
-              color: '#999',
+              overflow: 'hidden',
               flexShrink: 0,
+              position: 'relative',
             }}
           >
-            {area.sound && <SoundOutlined />}
+            <AreaPreview pageImage={pageImage} stroke={area.stroke} size={64} />
+            {area.sound && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '2px',
+                  right: '2px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  color: '#1890ff',
+                }}
+              >
+                <SoundOutlined />
+              </div>
+            )}
           </div>
 
           {/* Content */}
