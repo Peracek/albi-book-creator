@@ -1,7 +1,8 @@
-import { type Point, scale } from '@abc/shared';
+import { type Point } from '@abc/shared';
 import { ImageObject } from '@abc/storage';
 import { getSvgPathFromStroke } from '../utils/getSvgPathFromStroke';
 import { useSelectedArea } from '../../areas/SelectedAreaContext';
+import { a4Points } from '../../../constants';
 
 type Props = {
   areas: ImageObject[];
@@ -14,6 +15,8 @@ export const Strokes = ({ initialScale, areas }: Props) => {
   return (
     <svg
       id="strokes"
+      viewBox={`0 0 ${a4Points.h} ${a4Points.v}`}
+      preserveAspectRatio="xMidYMid meet"
       style={{
         position: 'absolute',
         top: 0,
@@ -22,14 +25,11 @@ export const Strokes = ({ initialScale, areas }: Props) => {
         height: '100%',
         // pointerEvents: 'none',
         touchAction: 'none',
-        aspectRatio: 297 / 210,
       }}
     >
       {areas.map((area) => {
         const isFocused = selectedArea === area.id;
-        const factor = initialScale;
-        const scaledDownPoints = area.stroke.map(scale(factor));
-        const pathData = getSvgPathFromStroke(scaledDownPoints as Point[]);
+        const pathData = getSvgPathFromStroke(area.stroke as Point[]);
         return (
           <path
             onMouseEnter={() => setSelectedArea(area.id)}

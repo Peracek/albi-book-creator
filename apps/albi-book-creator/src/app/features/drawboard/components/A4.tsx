@@ -10,6 +10,7 @@ import { a4AspectRatio, a4Points } from '../../../constants';
 
 export interface A4Ref {
   initialScale: number;
+  element: HTMLDivElement | null;
 }
 
 export const A4 = forwardRef<
@@ -35,6 +36,9 @@ export const A4 = forwardRef<
   useImperativeHandle(ref, () => ({
     get initialScale() {
       return intialScale!;
+    },
+    get element() {
+      return divRef.current;
     },
   }));
 
