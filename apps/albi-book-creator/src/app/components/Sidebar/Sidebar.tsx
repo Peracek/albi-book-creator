@@ -14,13 +14,12 @@ import { saveAs } from 'file-saver';
 
 type Props = {
   areas: ImageObject[];
-  pageImage: Blob;
   onExportClick: () => void;
   onAddArea: () => void;
   drawing: boolean;
 };
 
-export const Sidebar = ({ areas, pageImage, onExportClick, onAddArea, drawing }: Props) => {
+export const Sidebar = ({ areas, onExportClick, onAddArea, drawing }: Props) => {
   const { modal } = App.useApp();
 
   const handleBackup = async () => {
@@ -131,7 +130,7 @@ export const Sidebar = ({ areas, pageImage, onExportClick, onAddArea, drawing }:
           </div>
 
           {/* Existing Areas */}
-          <AreaList areas={areas} pageImage={pageImage} />
+          <AreaList areas={areas} />
         </Space>
       </div>
 

@@ -29,7 +29,6 @@ export const BookCreator = () => {
       {/* Sidebar */}
       <Sidebar
         areas={areas}
-        pageImage={img.image}
         onExportClick={() => setExportModalOpen(true)}
         onAddArea={() => setDrawing(true)}
         drawing={drawing}

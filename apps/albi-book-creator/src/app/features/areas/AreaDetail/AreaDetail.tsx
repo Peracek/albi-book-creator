@@ -3,7 +3,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Upload, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { AudioRecorder } from '../../../components/AudioRecorder';
-import { useArea, useObjectUrl } from '../../../hooks';
+import { useArea, useObjectUrl, usePageImage } from '../../../hooks';
+import { AreaPreview } from '../AreaList/AreaPreview';
 
 type Props = {
   areaId: number;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const AreaDetail = ({ areaId, onBack }: Props) => {
+  const pageImage = usePageImage();
   const area = useArea(areaId);
   const [recording, setRecording] = useState<File | undefined>();
   const recordingUrl = useObjectUrl(recording);
@@ -34,6 +36,22 @@ export const AreaDetail = ({ areaId, onBack }: Props) => {
 
   return (
     <div style={{ padding: '16px 0' }}>
+      {/* Preview */}
+      {pageImage && (
+        <div
+          style={{
+            width: '128px',
+            height: '128px',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            margin: '0 auto 24px',
+            border: '1px solid #d9d9d9',
+          }}
+        >
+          <AreaPreview pageImage={pageImage.image} stroke={area.stroke} size={128} />
+        </div>
+      )}
+
       <h3 style={{ margin: '0 0 16px 0' }}>{area.name ?? 'Area'}</h3>
 
       <Form
