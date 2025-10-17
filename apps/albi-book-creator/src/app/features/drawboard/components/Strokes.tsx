@@ -26,6 +26,18 @@ export const Strokes = ({ initialScale, areas }: Props) => {
         touchAction: 'none',
       }}
     >
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="28" result="coloredBlur" />
+          <feComponentTransfer result="intensifiedBlur" in="coloredBlur">
+            <feFuncA type="linear" slope="3" />
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode in="intensifiedBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
       {areas.map((area) => {
         const isFocused = selectedArea === area.id;
         const pathData = getSvgPathFromStroke(area.stroke as Point[]);
@@ -37,8 +49,10 @@ export const Strokes = ({ initialScale, areas }: Props) => {
             d={pathData}
             id={area.name}
             style={{
-              fill: isFocused ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-              stroke: isFocused ? 'black' : 'rgba(0, 0, 0, 0.1)',
+              fill: 'none',
+              stroke: '#1890ff',
+              strokeWidth: isFocused ? 15 : 0,
+              filter: isFocused ? 'url(#glow)' : 'none',
             }}
           />
         );
