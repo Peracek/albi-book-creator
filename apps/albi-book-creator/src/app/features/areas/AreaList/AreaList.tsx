@@ -63,7 +63,6 @@ export const AreaList = ({ areas, pageImage, onClick }: Props) => {
             style={{
               width: '64px',
               height: '64px',
-              backgroundColor: '#f0f0f0',
               borderRadius: '4px',
               overflow: 'hidden',
               flexShrink: 0,

@@ -141,8 +141,7 @@ const generatePreviewCanvas = (
   const previewOffsetY = (previewSize - scaledHeight) / 2;
 
   // Clear and draw scaled preview
-  targetCtx.fillStyle = '#f0f0f0';
-  targetCtx.fillRect(0, 0, previewSize, previewSize);
+  targetCtx.clearRect(0, 0, previewSize, previewSize);
   targetCtx.drawImage(
     sourceCanvas,
     previewOffsetX,
