@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Point } from '@abc/shared';
-import { useObjectUrl } from '../../../hooks';
+import { useObjectUrl, usePageImage } from '../../../hooks';
 import { a4Points } from '../../../constants';
 
 type Props = {
-  pageImage: Blob;
   stroke: Point[];
   size?: number;
 };
@@ -153,10 +152,11 @@ const generatePreviewCanvas = (
   return targetCanvas.toDataURL();
 };
 
-export const AreaPreview = ({ pageImage, stroke, size = 64 }: Props) => {
+export const AreaPreview = ({ stroke, size = 64 }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
-  const imageUrl = useObjectUrl(pageImage);
+  const pageImage = usePageImage();
+  const imageUrl = useObjectUrl(pageImage?.image);
 
   useEffect(() => {
     if (!imageUrl || !canvasRef.current || stroke.length === 0) return;

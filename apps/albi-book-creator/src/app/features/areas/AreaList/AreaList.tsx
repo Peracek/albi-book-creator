@@ -5,14 +5,12 @@ import { EditOutlined, DeleteOutlined, SoundOutlined } from '@ant-design/icons';
 import { AreaPreview } from './AreaPreview';
 import { AreaDetail } from '../AreaDetail';
 import { useState } from 'react';
-import { usePageImage } from '../../../hooks';
 
 type Props = {
   areas: ImageObject[];
 };
 
 export const AreaList = ({ areas }: Props) => {
-  const pageImage = usePageImage();
   const { setSelectedArea } = useSelectedArea();
   const { modal } = App.useApp();
   const [editingAreaId, setEditingAreaId] = useState<number | null>(null);
@@ -72,7 +70,7 @@ export const AreaList = ({ areas }: Props) => {
               position: 'relative',
             }}
           >
-            {pageImage && <AreaPreview pageImage={pageImage.image} stroke={area.stroke} size={64} />}
+            <AreaPreview stroke={area.stroke} size={64} />
             {area.sound && (
               <div
                 style={{
