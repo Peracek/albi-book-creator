@@ -1,5 +1,5 @@
 import { db, ImageObject } from '@abc/storage';
-import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Upload, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { AudioRecorder } from '../../../components/AudioRecorder';
@@ -34,15 +34,6 @@ export const AreaDetail = ({ areaId, onBack }: Props) => {
 
   return (
     <div style={{ padding: '16px 0' }}>
-      <Button
-        icon={<ArrowLeftOutlined />}
-        onClick={onBack}
-        type="text"
-        style={{ marginBottom: '16px' }}
-      >
-        Back to Areas
-      </Button>
-
       <h3 style={{ margin: '0 0 16px 0' }}>{area.name ?? 'Area'}</h3>
 
       <Form

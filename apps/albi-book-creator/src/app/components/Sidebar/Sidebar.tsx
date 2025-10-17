@@ -7,9 +7,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { Button, Space, App } from 'antd';
-import { useState } from 'react';
 import { AreaList } from '../../features/areas/AreaList';
-import { AreaDetail } from '../../features/areas/AreaDetail';
 import { db } from '@abc/storage';
 import { exportDB, importInto } from 'dexie-export-import';
 import { saveAs } from 'file-saver';
@@ -23,16 +21,7 @@ type Props = {
 };
 
 export const Sidebar = ({ areas, pageImage, onExportClick, onAddArea, drawing }: Props) => {
-  const [selectedAreaId, setSelectedAreaId] = useState<number | null>(null);
   const { modal } = App.useApp();
-
-  const handleAreaClick = (area: ImageObject) => {
-    setSelectedAreaId(area.id);
-  };
-
-  const handleBack = () => {
-    setSelectedAreaId(null);
-  };
 
   const handleBackup = async () => {
     const blob = await exportDB(db);
@@ -82,128 +71,118 @@ export const Sidebar = ({ areas, pageImage, onExportClick, onAddArea, drawing }:
         flexDirection: 'column',
       }}
     >
-      {selectedAreaId ? (
-        // Detail View
-        <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
-          <AreaDetail areaId={selectedAreaId} onBack={handleBack} />
-        </div>
-      ) : (
-        // List View
-        <>
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
-            <h3 style={{ margin: 0, marginBottom: '16px' }}>Areas ({areas.length})</h3>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+        <h3 style={{ margin: 0, marginBottom: '16px' }}>Areas ({areas.length})</h3>
 
-            <Space direction="vertical" style={{ width: '100%' }} size="middle">
-              {/* Add New Area Card */}
-              <div
-                onClick={onAddArea}
-                style={{
-                  display: 'flex',
-                  gap: '12px',
-                  padding: '12px',
-                  backgroundColor: 'white',
-                  borderRadius: '8px',
-                  border: drawing ? '2px dashed #1890ff' : '2px dashed #d9d9d9',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#1890ff';
-                  e.currentTarget.style.backgroundColor = '#f0f7ff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = drawing ? '#1890ff' : '#d9d9d9';
-                  e.currentTarget.style.backgroundColor = 'white';
-                }}
-              >
-                {/* Plus Icon */}
-                <div
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    backgroundColor: '#f0f0f0',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '32px',
-                    color: '#1890ff',
-                    flexShrink: 0,
-                  }}
-                >
-                  <PlusOutlined />
-                </div>
-
-                {/* Text */}
-                <div
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: '#1890ff',
-                  }}
-                >
-                  Add new area
-                </div>
-              </div>
-
-              {/* Existing Areas */}
-              <AreaList areas={areas} pageImage={pageImage} onClick={handleAreaClick} />
-            </Space>
-          </div>
-
-          {/* Bottom Toolbar */}
+        <Space direction="vertical" style={{ width: '100%' }} size="middle">
+          {/* Add New Area Card */}
           <div
+            onClick={onAddArea}
             style={{
-              borderTop: '1px solid #d9d9d9',
-              padding: '12px 16px',
-              backgroundColor: '#fff',
+              display: 'flex',
+              gap: '12px',
+              padding: '12px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              border: drawing ? '2px dashed #1890ff' : '2px dashed #d9d9d9',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#1890ff';
+              e.currentTarget.style.backgroundColor = '#f0f7ff';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = drawing ? '#1890ff' : '#d9d9d9';
+              e.currentTarget.style.backgroundColor = 'white';
             }}
           >
-            <Space direction="vertical" style={{ width: '100%' }} size="small">
-              <Button
-                type="text"
-                icon={<DownloadOutlined />}
-                onClick={onExportClick}
-                block
-                style={{ textAlign: 'left' }}
-              >
-                Export
-              </Button>
-              <Button
-                type="text"
-                icon={<SaveOutlined />}
-                onClick={handleBackup}
-                block
-                style={{ textAlign: 'left' }}
-              >
-                Backup
-              </Button>
-              <Button
-                type="text"
-                icon={<UploadOutlined />}
-                onClick={handleRestore}
-                block
-                style={{ textAlign: 'left' }}
-              >
-                Restore
-              </Button>
-              <Button
-                type="text"
-                icon={<DeleteOutlined />}
-                onClick={handleClear}
-                danger
-                block
-                style={{ textAlign: 'left' }}
-              >
-                Clear All
-              </Button>
-            </Space>
+            {/* Plus Icon */}
+            <div
+              style={{
+                width: '64px',
+                height: '64px',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '32px',
+                color: '#1890ff',
+                flexShrink: 0,
+              }}
+            >
+              <PlusOutlined />
+            </div>
+
+            {/* Text */}
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#1890ff',
+              }}
+            >
+              Add new area
+            </div>
           </div>
-        </>
-      )}
+
+          {/* Existing Areas */}
+          <AreaList areas={areas} pageImage={pageImage} />
+        </Space>
+      </div>
+
+      {/* Bottom Toolbar */}
+      <div
+        style={{
+          borderTop: '1px solid #d9d9d9',
+          padding: '12px 16px',
+          backgroundColor: '#fff',
+        }}
+      >
+        <Space direction="vertical" style={{ width: '100%' }} size="small">
+          <Button
+            type="text"
+            icon={<DownloadOutlined />}
+            onClick={onExportClick}
+            block
+            style={{ textAlign: 'left' }}
+          >
+            Export
+          </Button>
+          <Button
+            type="text"
+            icon={<SaveOutlined />}
+            onClick={handleBackup}
+            block
+            style={{ textAlign: 'left' }}
+          >
+            Backup
+          </Button>
+          <Button
+            type="text"
+            icon={<UploadOutlined />}
+            onClick={handleRestore}
+            block
+            style={{ textAlign: 'left' }}
+          >
+            Restore
+          </Button>
+          <Button
+            type="text"
+            icon={<DeleteOutlined />}
+            onClick={handleClear}
+            danger
+            block
+            style={{ textAlign: 'left' }}
+          >
+            Clear All
+          </Button>
+        </Space>
+      </div>
     </div>
   );
 }; 

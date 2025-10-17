@@ -1,18 +1,20 @@
 import { db, ImageObject } from '@abc/storage';
-import { Button, Space, App } from 'antd';
+import { Button, Space, App, Modal } from 'antd';
 import { useSelectedArea } from '../SelectedAreaContext';
 import { EditOutlined, DeleteOutlined, SoundOutlined } from '@ant-design/icons';
 import { AreaPreview } from './AreaPreview';
+import { AreaDetail } from '../AreaDetail';
+import { useState } from 'react';
 
 type Props = {
   areas: ImageObject[];
   pageImage: Blob;
-  onClick: (area: ImageObject) => void;
 };
 
-export const AreaList = ({ areas, pageImage, onClick }: Props) => {
+export const AreaList = ({ areas, pageImage }: Props) => {
   const { setSelectedArea } = useSelectedArea();
   const { modal } = App.useApp();
+  const [editingAreaId, setEditingAreaId] = useState<number | null>(null);
 
   const handleDelete = (area: ImageObject, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -29,7 +31,7 @@ export const AreaList = ({ areas, pageImage, onClick }: Props) => {
 
   const handleEdit = (area: ImageObject, e: React.MouseEvent) => {
     e.stopPropagation();
-    onClick(area);
+    setEditingAreaId(area.id);
   };
 
   return (
@@ -115,6 +117,18 @@ export const AreaList = ({ areas, pageImage, onClick }: Props) => {
           </div>
         </div>
       ))}
+      <Modal
+        title="Edit Area"
+        open={editingAreaId !== null}
+        onCancel={() => setEditingAreaId(null)}
+        footer={null}
+        width={600}
+        destroyOnClose
+      >
+        {editingAreaId !== null && (
+          <AreaDetail areaId={editingAreaId} onBack={() => setEditingAreaId(null)} />
+        )}
+      </Modal>
     </Space>
   );
 };
