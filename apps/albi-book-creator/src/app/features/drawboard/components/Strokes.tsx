@@ -16,7 +16,6 @@ export const Strokes = ({ initialScale, areas }: Props) => {
     <svg
       id="strokes"
       viewBox={`0 0 ${a4Points.h} ${a4Points.v}`}
-      preserveAspectRatio="xMidYMid meet"
       style={{
         position: 'absolute',
         top: 0,
