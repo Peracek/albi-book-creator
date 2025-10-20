@@ -15,6 +15,12 @@ export const a4Dots = {
 
 // Dimensions of A4 paper in points at 1200 DPI
 export const a4Points = {
-  h: 14028,
-  v: 9924,
+  // PERO: my calculations
+  // h: 14028,
+  // v: 9924,
+
+  // calculations from slepicka.png
+  //13458 × 9358
+  h: 13458,
+  v: 9358,
 };
