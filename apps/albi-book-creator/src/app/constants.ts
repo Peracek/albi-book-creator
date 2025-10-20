@@ -21,6 +21,10 @@ export const a4Points = {
 
   // calculations from slepicka.png
   //13458 × 9358
-  h: 13458,
-  v: 9358,
+  // h: 13458,
+  // v: 9358,
+
+  // online search
+  h: 14031,
+  v: 9921
 };
