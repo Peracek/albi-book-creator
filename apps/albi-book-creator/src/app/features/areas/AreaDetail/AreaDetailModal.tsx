@@ -68,7 +68,7 @@ export const AreaDetailModal = ({ areaId, onClose }: Props) => {
         </Form.Item>
         <Form.Item<ImageObject> label="Sound" name="sound">
           <Upload accept=".mp3" beforeUpload={() => false}>
-            <AudioRecorder onRecorded={setRecording} />
+            <AudioRecorder onRecorded={setRecording} areaId={areaId} />
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
         </Form.Item>

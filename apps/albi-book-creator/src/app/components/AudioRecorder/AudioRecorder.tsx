@@ -6,8 +6,9 @@ import mp3RecorderWorker from './worker?worker';
 
 type Props = {
   onRecorded: (sound: File) => void;
+  areaId: number;
 };
-export const AudioRecorder = ({ onRecorded }: Props) => {
+export const AudioRecorder = ({ onRecorded, areaId }: Props) => {
   const [isRecording, setIsRecording] = useState(false);
   const recorderRef = useRef(null);
   const worker = useRef(mp3RecorderWorker());
@@ -23,7 +24,7 @@ export const AudioRecorder = ({ onRecorded }: Props) => {
         recorderRef.current = recorder;
         recorder.ondataavailable = (event) => {
           const mp3Blob = event.data;
-          const fileName = `${'test'}.mp3`;
+          const fileName = `${areaId}.mp3`;
           const file = new File([mp3Blob], fileName, {
             type: mp3Blob.type,
             lastModified: Date.now(),

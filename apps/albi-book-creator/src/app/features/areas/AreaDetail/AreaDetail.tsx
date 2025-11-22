@@ -66,7 +66,7 @@ export const AreaDetail = ({ areaId, onBack }: Props) => {
         </Form.Item>
         <Form.Item<ImageObject> label="Sound" name="sound">
           <Space direction="vertical" style={{ width: '100%' }}>
-            <AudioRecorder onRecorded={setRecording} />
+            <AudioRecorder onRecorded={setRecording} areaId={areaId} />
             <Upload accept=".mp3" beforeUpload={() => false}>
               <Button icon={<UploadOutlined />} block>
                 Upload MP3
